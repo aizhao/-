@@ -45,7 +45,7 @@ p{
   text-align: left;
 }
 .box{
-    height: 1000px;
+    height: 90%;
     border-right-style: solid;
     border-right-width: 1px;
     border-right-color: rgb(228, 228, 228);

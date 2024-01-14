@@ -1,23 +1,23 @@
 <template>
   <div id="app">
-    <QnNavbar></QnNavbar>
-    <el-aside><LeftList></LeftList></el-aside>
-    <div>
+  
       <router-view></router-view>
-    </div>
-  </div>
+</div>
 </template>
 
 <script>
+import index from '@/views/index.vue'
 export default {
-name: 'App'
+name: 'App',
+ components:{
+        index:index
+    },
 }
 </script>
 
 <style>
 #app {
+
 }
-.el-aside{
-  float: left;
-}
+
 </style>

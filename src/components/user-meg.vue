@@ -57,8 +57,7 @@ h3{
     margin-top: 20px;
 }
 .box{
-
-    width: 300px;
+    width: 19%;
 }
 .box-card{
     width:100%;

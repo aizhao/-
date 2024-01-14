@@ -70,8 +70,8 @@ h3{
    border-style: solid;
    border-width: 1px;
    border-color: rgb(228, 228, 228);
-   height: 700px;
-   width: 300px;
+   height: 900px;
+   width: 19%;
 }
 a{
   position: relative;
@@ -82,12 +82,12 @@ a{
 }
 .box-card{
   width: 220px;
-  height: 80px;
+  height: 70px;
 }
 .infinite-list{
   list-style-type: none;
   float: left;
-  height: 85%;
+  height: 75%;
   width: 310px;
 }
 

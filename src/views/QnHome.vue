@@ -6,7 +6,6 @@
     <UserMeg></UserMeg>
      <QnRecommend></QnRecommend>
      <SinnerList></SinnerList>
-    
   </div>
 </template>
 

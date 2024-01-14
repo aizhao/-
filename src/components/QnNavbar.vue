@@ -33,7 +33,6 @@ export default {
 <style scoped>
 
 nav {  
- 
   height: 80px;
   background-color: #1c1d26;
 }  

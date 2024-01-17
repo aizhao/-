@@ -5,9 +5,8 @@ import QnRecmend from '@/views/QnRecmend'
 import QnRegister from '@/views/QnRegister'
 import QnAvator from '@/views/QnAvator'
 import QnPhone from '@/views/login-phone'
-import SongList from '@/views/SongList'
+import Song1List from '@/views/Song1List'
 import Vue from 'vue'
-import MainPage from '@/views/MainPages';
 import index from '@/views/index'
 Vue.use(VueRouter)
 const router =new VueRouter({
@@ -20,11 +19,11 @@ const router =new VueRouter({
       children:[
         {path:'/QnHome',name:'QnHome',component:QnHome,meta:{keepAlive:true}},
         {path:'/QnRecmend',name:'QnRecmend',component:QnRecmend,meta:{keepAlive:true}},
-        {path:'/SongList',name:'SongList',component:SongList,meta:{keepAlive:false}}
+        {path:'/Song1List',name:'Song1List',component:Song1List,meta:{keepAlive:false}}
       ]
     },
     {path:'/QnLogin',name:'QnLogin',component:QnLogin,children:[{path:'login-phone',component:QnPhone}],meta:{keepAlive:true}},
-    {path:'/QnAvator',name:'QnAvator',component:QnAvator,meta:{keepAlive:true}},      
+    {path:'/QnAvator',name:'QnAvator',component:QnAvator,meta:{keepAlive:false}},      
     {path:'/QnRegister',name:'QnRegister',component:QnRegister,meta:{keepAlive:true}}, 
    
     ]

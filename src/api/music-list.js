@@ -75,3 +75,12 @@ export function _getBanner(){
         url:'/banner',
     })
 }
+export function commentList(id,limit){
+    return request({
+        url:'/comment/playlist',
+        params:{
+            id:id,
+            limit:limit
+        }
+    })
+}

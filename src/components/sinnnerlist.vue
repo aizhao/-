@@ -54,8 +54,7 @@ h4{
     top: -12px;
     left: -15px;
     display: inline-block;
-    *display: inline;
-    *zoom: 1;
+  
 }
 h3{
     text-align: center;

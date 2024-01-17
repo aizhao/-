@@ -10,7 +10,7 @@
    <ul class="list">我的歌单
     <li v-for="item in list" :key="item.id">
          <div><el-avatar :src="item.coverImgUrl"></el-avatar>
-        <router-link :to="{path:'/QnHome'}"><p>{{item.name}}</p></router-link></div>
+        <div class="item_name" @click="goto"><p id="name">{{item.name}}</p></div></div>
     </li>
    </ul>
   </div>
@@ -36,23 +36,25 @@ export default {
 </script>
 
 <style scoped>
-p{
+#name{
   text-decoration: none;
   position: relative;
   top: -40px;
   left: 45px;
-  width: 160px;
+  width: 90%;
   text-align: left;
 }
 .box{
-    height: 90%;
+    height: 100%;
     border-right-style: solid;
     border-right-width: 1px;
     border-right-color: rgb(228, 228, 228);
+    width: 95%;
+    overflow: hidden;
 }
 ul li{
     height: 50px;
-    margin: 20px 20px;
+    margin: 10px 20px;
     padding: 10px 15px;
     list-style-type: none;
     border-bottom-style: dashed;
@@ -65,9 +67,10 @@ ul li{
     text-decoration: none;
     color: #161a21;
 }
-.router-link-active{
+.item_name{
     text-decoration: none;
     padding: 0 10px;
+  cursor: pointer;
 }
 .list li{
     margin: 10px 10px;

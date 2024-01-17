@@ -1,7 +1,7 @@
 <template>
 
 <div class="main-box">
-  <div class="box">
+  <div class="box1">
   <el-carousel :interval="3000"  height="330px">
     <el-carousel-item v-for="item in list" :key="item.id" >
        <el-image :src="item.imageUrl" fit="cover"></el-image>
@@ -18,7 +18,7 @@ import {_getBanner} from '@/api/music-list'
     };
   },
  created(){
-        let uid=localStorage.getItem("uid")
+        
       _getBanner().then((res)=>{
         this.list=res.banners
       
@@ -28,7 +28,7 @@ import {_getBanner} from '@/api/music-list'
   }
 </script>
 <style scoped>
-.box{
+.box1{
   height: 350px;
   width: 93%;
   position: relative;

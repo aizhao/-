@@ -1,5 +1,5 @@
 <template>
-  <div class="box">
+  <div class="box2">
     <el-card class="box-card" shadow="never">
         <el-avatar shape="square" :size="100" :src="ImgUrl"></el-avatar>
         <p>{{nickname}}<br>Lv.{{grade}}<br>听歌数目：{{listenSongs}}<br><br>{{Time}}</p>
@@ -16,7 +16,7 @@ import moment from 'moment';
 export default {
 data() {
     return {
-       nickname:'', // 推荐歌单数据
+       nickname:'用户', 
        ImgUrl:'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
        Time:'暂未登录',
        grade:0,
@@ -25,6 +25,8 @@ data() {
     };
   },
  created(){
+        let token=localStorage.getItem("token")
+        if(token){
         this.ImgUrl=localStorage.getItem('avatar')
         const uid=localStorage.getItem('uid')
         GetUser(uid).then((res)=>{
@@ -35,7 +37,7 @@ data() {
             this.grade=res.level
             this.listenSongs=res.listenSongs
             this.description=res.profile.signature
-        })
+        })}
         }
 
 }
@@ -56,8 +58,9 @@ h3{
     text-align: left;
     margin-top: 20px;
 }
-.box{
+.box2{
     width: 19%;
+    
 }
 .box-card{
     width:100%;

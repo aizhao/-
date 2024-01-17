@@ -3,14 +3,13 @@
 </template>
 
 <script>
-export default {
-}
+export default {};
 </script>
 
 <style>
-.recmend{
-    height: 1000px;
-    width: 500px;
-    background-color: #f0f;
+.recmend {
+  height: 1000px;
+  width: 500px;
+  background-color: #f0f;
 }
 </style>

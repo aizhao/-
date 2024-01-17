@@ -12,12 +12,14 @@ import request from '@/until/request'
 import router from '@/router/index'
 import VueCookies from 'vue-cookies';
 import LeftList from '@/components/left-list'
-import MainPages from '@/views/MainPages'
+import VClamp from 'vue-clamp'
+import Comme from '@/components/CommeList'
 Vue.use(VueCookies)
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 Vue.component('QnNavbar',QnNavbar)
-Vue.component('MainPages',MainPages)
+Vue.component('Comme',Comme)
+Vue.component('VClamp',VClamp)
 Vue.component('QnSearchbar',QnSearchbar)
 Vue.component('QnRecommend',QnRecommend)
 Vue.component('LeftList',LeftList)

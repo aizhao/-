@@ -51,3 +51,8 @@ export function GetuserGrade(uid){
         }
     })
 }
+export function Status(){
+    return request({
+        url:'/login/status',
+    })
+}

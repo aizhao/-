@@ -80,7 +80,27 @@ export function commentList(id,limit){
         url:'/comment/playlist',
         params:{
             id:id,
-            limit:limit
+            limit:limit,
+            time:new Date().getTime()
+        }
+    })
+}
+export function Like(id,cid,t,type){
+    return request({
+        url:'/comment/like',
+        params:{
+            id:id,
+            cid:cid,
+            t:t,
+            type:type
+        }
+    })
+}
+export function songdetail(ids){
+    return request({
+        url:'/song/detail',
+        params:{
+            ids:ids
         }
     })
 }

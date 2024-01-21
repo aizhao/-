@@ -2,7 +2,7 @@
   <div class="box">
     <div class="header">
       <div>
-        <el-image :src="url" fit="scale-down" class="block">
+        <el-image :src="url+'?param=300y300'" fit="scale-down" class="block" lazy>
           <div slot="error" class="image-slot">
             <i class="el-icon-picture-outline"></i>
           </div>
@@ -21,7 +21,7 @@
           <el-avatar
             shape="square"
             size="medium"
-            :src="creator.avatarUrl"
+            :src="creator.avatarUrl+'?param=36y36'"
           ></el-avatar>
           <p>{{ creator.nickname }}</p>
           <p>{{ Time }}</p>
@@ -35,7 +35,12 @@
             round
             >播放</el-button
           >
-          <el-button icon="el-icon-s-comment" size="medium" type="info" round
+          <el-button
+            icon="el-icon-s-comment"
+            size="medium"
+            type="info"
+            round
+            @click="goto()"
             >评论({{ list.commentCount }})</el-button
           >
         </div>
@@ -48,16 +53,22 @@
           </ul>
         </div>
         <div class="description">
-          <v-clamp autoresize :max-lines="4">
-            介绍：{{ list.description }}</v-clamp
+          <el-collapse>
+            <el-collapse-item title="介绍：" name="1">
+              <div>{{ list.description }}</div>
+            </el-collapse-item></el-collapse
           >
         </div>
-        <!-- </div>
-        </div> -->
       </div>
     </div>
-    <SongList :MusicList="MusicList"></SongList>
-    <Comme :id="id"></Comme>
+    <el-tabs v-model="activeName">
+      <el-tab-pane label="歌曲列表" name="first"
+        ><SongList :MusicList="MusicList"></SongList
+      ></el-tab-pane>
+      <el-tab-pane label="评论" name="second"
+        ><Comme :id="id"></Comme
+      ></el-tab-pane>
+    </el-tabs>
   </div>
 </template>
 
@@ -78,6 +89,7 @@ export default {
       Time: "暂无",
       creator: [],
       loading: true,
+      activeName: "first",
     };
   },
   created() {
@@ -85,6 +97,9 @@ export default {
     this.load();
   },
   methods: {
+    goto() {
+      this.activeName = "second";
+    },
     load() {
       _getMusicList(this.id).then((res) => {
         console.log(res);
@@ -106,8 +121,6 @@ export default {
   position: relative;
   display: flex;
   flex-wrap: wrap;
-  height: 92%;
-  width: 85%;
 }
 h2 {
   display: inline;
@@ -117,8 +130,10 @@ h1 {
 }
 .description {
   line-height: 2;
-  font-size: 15px;
-  color: #656565;
+  font-size: 25px;
+}
+.el-tabs {
+  margin: 20px 40px;
 }
 .buttom {
 }
@@ -140,19 +155,14 @@ ul li {
   font-size: 15px;
   color: #656565;
 }
-.box-card1 p {
-}
-.box-card1 {
-  width: 30%;
-  height: 300px;
-}
+
 .avator {
   display: flex;
   flex-direction: row;
   /* justify-content: center; */
   align-items: center;
 }
-.avator p{
+.avator p {
   margin-left: 14px;
 }
 .header {
@@ -173,7 +183,7 @@ ul li {
   flex-direction: column;
   margin: 10px;
   width: 60%;
-  height: 300px;
+  height: 20%;
   text-align: left;
   justify-content: space-around;
 }
@@ -193,7 +203,7 @@ ul li {
   /* justify-content: center; */
   align-items: center;
 }
-.tatel_header p{
+.tatel_header p {
   margin-left: 20px;
   font-size: 22px;
   font-weight: bold;

@@ -1,7 +1,6 @@
 <template>
   <div class="songs">
     <div class="tableheader">
-      <h2>歌曲列表</h2>
       <p>共{{ MusicList.length }}首歌</p>
     </div>
     <div class="songstable">
@@ -11,24 +10,54 @@
           MusicList.slice((currentPage - 1) * pagesize, currentPage * pagesize)
         "
         stripe
-        style="width: 100%"
-        max-height="750px"
+        style="width:1000px height: 750px;"
       >
         <el-table-column type="index" :index="indexMethod"> </el-table-column>
-        <el-table-column width="60" >
-          <el-button type="primary" size="small" circle
-            ><i class="el-icon-video-play"> </i
-          ></el-button>
+        <el-table-column width="120"
+          ><template slot-scope="scope">
+            <el-button
+              type="primary"
+              size="small"
+              circle
+              @click="goto(scope.row.id)"
+              ><i class="el-icon-video-play"> </i></el-button
+          ></template>
         </el-table-column>
-        <el-table-column prop="name" label="歌曲标题" width="280" >
+        <el-table-column label="歌曲标题" width="380">
+          <template slot-scope="scope">
+            <el-link
+              @click="goto(scope.row.id)"
+             
+        
+              >{{ scope.row.name }}</el-link
+            >
+          </template>
         </el-table-column>
-        <el-table-column prop="dt" label="时长" width="180" >
+        <el-table-column prop="dt" label="时长" width="280">
           <template slot-scope="scope">
             <span>{{ dayjs(scope.row.dt).format("mm:ss") }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="ar.0.name" label="歌手"  width="160"> </el-table-column>
-        <el-table-column prop="al.name" label="专辑"  width="260"> </el-table-column>
+        <el-table-column label="歌手" width="260" >
+          <template slot-scope="scope">
+            <el-link  @click="goto(scope.row.id)" target="_blank" v-for="(item,idx) in scope.row.ar.slice(0,scope.row.ar.length>3?2:scope.row.ar.length-1)" :key="idx" >{{
+              item.name
+            }}/</el-link>
+            <el-link v-if="scope.row.ar.length<4" @click="goto(scope.row.id)" target="_blank" >{{
+              scope.row.ar[scope.row.ar.length-1].name
+            }}</el-link>
+            <el-link v-if="scope.row.ar.length>3" @click="goto(scope.row.id)" target="_blank" >{{
+              scope.row.ar[2].name
+            }}</el-link>
+          </template>
+        </el-table-column>
+        <el-table-column label="专辑" width="360">
+          <template slot-scope="scope">
+            <el-link href="https://element.eleme.io" target="_blank">{{
+              scope.row.al.name
+            }}</el-link>
+          </template>
+        </el-table-column>
       </el-table>
       <el-pagination
         @size-change="handleSizeChange"
@@ -46,17 +75,32 @@
 </template>
 
 <script>
+
 import dayjs from "dayjs";
+import { CheckMusic } from "@/api/Music-Play";
+
 export default {
   props: {
     MusicList: [],
   },
   data() {
     return {
+      Color: "black",
       dayjs: dayjs,
+      list: [],
       loading: true,
       currentPage: 1, // 初始页
       pagesize: 10,
+      level: "standard",
+      songInfo: {
+        title: "", //歌曲名称
+        artist: " ", //演唱者
+        src: "", //音频文件的 URL
+        pic: "",
+        lrc: "", //LRC 歌词或者歌词文件的 URL
+        theme:'',
+      },
+      num: 0,
     };
   },
   created() {
@@ -65,6 +109,24 @@ export default {
     }, 1000);
   },
   methods: {
+    goto(id) {
+      CheckMusic(id).then((res)=>{
+        if(res.success===true){
+          this.$Addmusic(id)
+          console.log(this.$store.state.palylist)
+        }
+        else{
+          this.$alert("亲爱的，暂无版权", "抱歉", {
+          confirmButtonText: "返回",
+          callback: () => {
+            this.$message({
+              type: "info",
+            });
+          },
+        });
+        }
+      })
+    },
     indexMethod(index) {
       return index + 1;
     },
@@ -76,33 +138,24 @@ export default {
       this.currentPage = currentPage; //点击第几页
     },
   },
-   // 解决打开弹窗 el-table 抖动问题
- 
-
+  // 解决打开弹窗 el-table 抖动问题
 };
 </script>
 
 <style>
-.el-pagination{
-    margin: 20px 40px;
+
+
+.el-pagination {
+  margin: 20px 40px;
 }
 h2 {
   display: inline;
 }
 .songs {
-  width: 100%;
   height: 120%;
 }
-.tableheader {
-  margin: 20px 40px;
-}
-.bo {
-  position: relative;
-  left: 75%;
-  color: red;
-}
-.songstable {
-  margin: 20px 40px;
+.fen{
+  width: 1px;
 }
 .songs p {
   margin-left: 20px;

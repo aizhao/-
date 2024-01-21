@@ -65,6 +65,10 @@ h3{
 .box-card{
     width:100%;
     height: 90%;
+     /* 圆角 */
+  border-radius: 10px;
+  /* 边框 */
+
 }
 p{
     font-weight: 700;

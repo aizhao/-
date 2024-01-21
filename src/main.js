@@ -14,15 +14,22 @@ import VueCookies from 'vue-cookies';
 import LeftList from '@/components/left-list'
 import VClamp from 'vue-clamp'
 import Comme from '@/components/CommeList'
+import '@/icons/iconfont.css'
+import MusicPlay from '@/components/MusicPlay'
+import APlayer from 'vue-aplayer';
+import add from '@/until/index'
+Vue.use(add)
 Vue.use(VueCookies)
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 Vue.component('QnNavbar',QnNavbar)
 Vue.component('Comme',Comme)
 Vue.component('VClamp',VClamp)
+Vue.component('APlayer',APlayer)
 Vue.component('QnSearchbar',QnSearchbar)
 Vue.component('QnRecommend',QnRecommend)
 Vue.component('LeftList',LeftList)
+Vue.component('MusicPlay',MusicPlay)
 Vue.prototype.request=request
 //跨域问题解决方面
 new Vue({

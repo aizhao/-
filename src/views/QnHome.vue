@@ -28,7 +28,10 @@ export default {
   margin: auto 0 0 -90px;
   display: flex;
   flex-wrap: wrap;
-  height: 1000px;
+   /* 圆角 */
+   border-radius: 10px;
+  /* 边框 */
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 }
 .header {
   height: 400px;

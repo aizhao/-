@@ -8,11 +8,11 @@
   <el-col :span="6"><a href="#" @click="count=4">日本</a></el-col></el-row>
   <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto" infinite-scroll-immediate="false">
 
-    <li v-for="(i,index) in list" :key="index" class="infinite-list-item" >
+    <li v-for="(i,index) in list" :key="index" class="infinite-list-item" @click="goto(i.id)">
         <h4>{{index+1}}.</h4>
-        <el-avatar  :src="i.picUrl">
-        </el-avatar><router-link :to="{path:'/QnHome'}">{{ i.name }}
-        </router-link
+        <el-avatar  :src="i.picUrl+'?param=50y40'" >
+        </el-avatar><el-link @click="goto(i.id)">{{ i.name }}
+        </el-link
         ></li>
  </ul>
 
@@ -43,7 +43,15 @@ export default {
     methods: {
       load () {
         this.nums++;
-      }
+      },
+      goto(id){
+      this.$router.push({
+        path: "/sinner",
+        query: {
+          id: id,
+        },
+      });
+    }
     },
 }
 </script>
@@ -71,6 +79,10 @@ h3{
    border-color: rgb(228, 228, 228);
    height: 900px;
    width: 19%;
+    /* 圆角 */
+  border-radius: 10px;
+  /* 边框 */
+  overflow: auto;
 }
 a{
   position: relative;

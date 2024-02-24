@@ -18,6 +18,8 @@ import '@/icons/iconfont.css'
 import MusicPlay from '@/components/MusicPlay'
 import APlayer from 'vue-aplayer';
 import add from '@/until/index'
+import SongMask from '@/components/Mask1.vue'
+import '@/css/global.css'
 Vue.use(add)
 Vue.use(VueCookies)
 Vue.use(ElementUI)
@@ -30,6 +32,7 @@ Vue.component('QnSearchbar',QnSearchbar)
 Vue.component('QnRecommend',QnRecommend)
 Vue.component('LeftList',LeftList)
 Vue.component('MusicPlay',MusicPlay)
+Vue.component('SongMask',SongMask)
 Vue.prototype.request=request
 //跨域问题解决方面
 new Vue({

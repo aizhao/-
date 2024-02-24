@@ -81,7 +81,8 @@ export default {
       this.$refs.input1.style.padding = "0 ";
     },
     add(id){
-        this.$Addmusic(id)
+        this.$Addmusic(id,1)
+        this.$store.commit('OpenMask')
     },
     addmsg(Msg){
         this.msg = Msg

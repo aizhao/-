@@ -7,4 +7,23 @@ export function _sinner(id) {
     },
   });
 }
+export function get_sinner(limit,type,area,initial) {
+  return request({
+    url: "/artist/list",
+    params: {
+      limit:limit,
+      initial:initial,
+      type:type,
+      area:area
+    },
+  });
+}
+export function get_hotsinner(limit) {
+  return request({
+    url: "/top/artists",
+    params: {
+      limit:limit
+    },
+  });
+}
 

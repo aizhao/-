@@ -12,6 +12,9 @@ import Aplayer from '@/components/Aplayer'
 import SearchList from '@/views/SearchList'
 import searchbar from '@/components/QnSearchbar'
 import sinner from '@/views/sinner'
+import QnSinner from '@/views/QnSinner'
+import rankingList from '@/views/rankingList'
+
 Vue.use(VueRouter)
 const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {
@@ -30,6 +33,9 @@ const router =new VueRouter({
         {path:'/Song1List',name:'Song1List',component:Song1List,meta:{keepAlive:false}},
         {path:'/SearchList',name:'SearchList',component:SearchList,meta:{keepAlive:false}},
         {path:'/sinner',name:'sinner',component:sinner,meta:{keepAlive:false}},
+        {path:'/QnSinner',name:'QnSinner',component:QnSinner,meta:{keepAlive:false}},
+        {path:'/rankingList',name:'rankingList',component:rankingList,meta:{keepAlive:false}},
+  
       ]
     },
     {path:'/QnLogin',name:'QnLogin',component:QnLogin,children:[],meta:{keepAlive:true}},
@@ -37,7 +43,7 @@ const router =new VueRouter({
     {path:'/QnRegister',name:'QnRegister',component:QnRegister,meta:{keepAlive:true}}, 
     {path:'/MusicPlay',name:'MusicPlay',component:MusicPlay,meta:{keepAlive:true}},
     {path:'/Aplayer',name:'Aplayer',component:Aplayer,meta:{keepAlive:true}},
-    {path:'/searchbarr',name:'searchbar',component:searchbar,meta:{keepAlive:true}}
+    {path:'/searchbarr',name:'searchbar',component:searchbar,meta:{keepAlive:true}},
     
 
   ]

@@ -1,89 +1,138 @@
 <template>
-  <el-container>
-    <el-header height="10%"><QnNavbar></QnNavbar>
-    </el-header>
+  <div id="app">
+    <SongMask :val.sync="val" class="mask" v-show="this.$store.getters.getmask"></SongMask>
+  <el-container class="contain" v-show="!this.$store.getters.getmask">
+    <el-header height="10%"><QnNavbar></QnNavbar> </el-header>
     <el-container>
       <el-aside width="18%"><left-list></left-list></el-aside>
       <el-main>
-        <keep-alive> <router-view v-if="$route.meta.keepAlive" :key="$route.fullPath"/></keep-alive>
-        <router-view v-if="!$route.meta.keepAlive" :key="$route.fullPath"/>
+        <keep-alive>
+          <router-view v-if="$route.meta.keepAlive" :key="$route.fullPath"
+        /></keep-alive>
+        <router-view v-if="!$route.meta.keepAlive" :key="$route.fullPath" />
       </el-main>
 
-      <el-radio-group v-model="direction">
-        </el-radio-group
-      >
+      <el-radio-group v-model="direction"> </el-radio-group>
 
-      <el-button
-        @click="open()"
-        style="margin-left: 16px"
-      >
+      <el-button @click="open()" style="margin-left: 16px">
         音乐列表({{ this.$store.state.palylist.length }})
       </el-button>
-      <el-drawer  :visible.sync="drawer" :direction="direction" size="25%" withHeader:false>
+      <el-drawer
+        :visible.sync="drawer"
+        :direction="direction"
+        size="25%"
+        withHeader:false
+        @open="open1()"
+      >
         <play :val.sync="val"></play>
         <aPlayer
           ref="media"
-          :songInfo="this.$store.getters.getlist"
+          :songInfo="this.$store.state.palylist[index]"
           :key="this.$store.state.key"
           :list="this.$store.getters.getPlaylist"
           
         />
       </el-drawer>
     </el-container>
-  </el-container>
+  </el-container></div>
 </template>
 
-<script scope>
+<script>
 import aPlayer from "@/components/Aplayer.vue";
-import play from '@/components/play/play.vue'
+import play from "@/components/play/play.vue";
+
 // 引入searchlist.vue
 export default {
   components: {
     aPlayer: aPlayer,
-    play:play,
+    play: play,
   },
   data() {
     return {
-      val:{},
+      val: {},
       num: 0,
-      pic:'',
+      pic: "",
       level: "standard",
       drawer: false,
       direction: "rtl",
-      song:{},
+      song: {},
+      index: 0,
     };
   },
   created() {
-    
-      console.log(this.val)
+    this.num = 1;
+  },
+  mounted(){
+    // const contain=this.$refs.contain;
+    // // 屏幕高度
+    // contain.style.height=document.body.clientHeight+'px';
   },
   methods: {
-    open(){
-      this.drawer=true
-      this.val=this.$refs.media.$children[0]
-    
-    
-      // this.pic=this.$store.state.palylist[0].pic
-    }
+    open1() {
+      this.$nextTick(() => {
+        this.val = this.$refs.media.$children[0];
+        this.$store.commit('setval',this.val)
+      });
+    },
+    open() {
+      this.drawer = true;
+    },
+    close() {
+      this.drawer = false;
+    },
+  },
+  watch: {
+    "$store.state.palylist"(Val) {
+      const h = this.$createElement;
+      if (Val.length == 1) {
+        this.$notify({
+       
+          message: h(
+            "i",
+            { style: "color: teal" },
+            "亲，可点击右方播放列表按钮来找到添加的歌曲哦"
+          ),
+          position: "top-left",
+          offset: 400,
+          duration:3000
+        });
+        this.open();
+        setTimeout(() => {
+          this.close();
+        }, 3000);
+      }
+      else{
+        this.open1()
+      }
+    },
+    'val.playIndex': {
+      handler(newval){
+        this.index=newval
+        },
+      deep:true
+    },
   },
 };
 </script>
-<style>
-.operation-wrapper {
+<style scoped>
+:deep(.operation-wrapper) {
   width: 100% !important;
 }
-
-.el-drawer.ltr, .el-drawer.rtl {
-    height: 100%;
-    /* top: 30%; */
-    opacity:0.9;
-    background-image: url();
-    /* 圆角 */
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    border-radius: 10px;
+.mask{
+  transition: 1s;
+  
 }
-.el-header {
+:deep(.el-drawer.rtl) {
+  height: 100%;
+  /* top: 30%; */
+  opacity: 0.9;
+  background-image: url();
+  /* 圆角 */
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+}
+:deep(.el-header) {
   position: fixed;
   width: 100%;
   z-index: 3;

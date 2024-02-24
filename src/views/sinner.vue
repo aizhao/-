@@ -17,7 +17,7 @@
         <div class="tatel_header">
           <p>{{ list.name }}</p>
         </div>
-        <div ename>
+        <div >
           <p v-for="(item, idx) in list.alias" :key="idx">{{ item }}</p>
         </div>
         <div class="introduce">
@@ -74,7 +74,10 @@ export default {
 };
 </script>
 
-<style scope>
+<style scoped>
+.introduce{
+  margin-top: 20px;
+}
 .main {
   display: flex;
 }
@@ -90,7 +93,6 @@ export default {
 }
 .tatel_header {
   margin-top: 20px;
-
   height: 30px;
 
   /* justify-content: center; */

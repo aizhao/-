@@ -1,11 +1,13 @@
+
 import Vue from "vue";
 import Vuex from "vuex";
 
 Vue.use(Vuex);
 function findIndex(list, song) {
   // 为true时是index下标，不满足返回-1
-  return list.findIndex((item) => item.title === song.title);
+  return list.findIndex((item) => item.uid === song.uid);
 }
+
 export default new Vuex.Store({
   state: {
     theme: "light",
@@ -20,12 +22,38 @@ export default new Vuex.Store({
     palylist: [],
     currentIndex: 0,
     key:0,
-    falg:false
+    falg:false,
+    mask:false,
+    val:{},
+    curren:0,
+    likelist:[],
+    liked:true
   },
   mutations: {
     setTheme(state, theme) {
       state.theme = theme;
       localStorage.setItem("theme", theme);
+    },
+    setval(state,Val){
+      state.val=Val
+    },
+    setlike(state,Val){
+      state.likelist=Val
+    }, 
+    addlike(state,id){
+        state.likelist.unshift(JSON.parse(JSON.stringify(id)));
+    },
+    poplike(state,idx){
+      state.likelist.splice(idx, 1);
+    },
+    CloseMask(state) {
+      state.mask =false;
+    },
+    OpenMask(state){
+      state.mask=true;
+    },
+    setplay(state,songs){
+      state.palylist=songs;
     },
     setIdx(state, index) {
       state.currentIndex=index;
@@ -39,13 +67,22 @@ export default new Vuex.Store({
     setPlaylist(state, list) {
       state.palylist = list;
     },
-    addSongToPlaylist(state, song) {
+    addSongToPlaylist1(state, song) {
       let idx = findIndex(state.palylist, song);
+
       if (idx >= 0) {
         state.palylist.splice(idx, 1);
       }
      
       state.palylist.unshift(JSON.parse(JSON.stringify(song)));
+    },
+    addSongToPlaylist2(state, song) {
+      let idx = findIndex(state.palylist, song);
+      if (idx >= 0) {
+        state.palylist.splice(idx, 1);
+      }
+     
+      state.palylist.push(JSON.parse(JSON.stringify(song)));
     },
     setToken(state, token) {
       state.token = token;
@@ -74,11 +111,17 @@ export default new Vuex.Store({
     getPlaylist(state) {
       return state.palylist;
     },
+    getval(state) {
+      return state.val;
+    },
     getTheme(state) {
       if (localStorage.getItem("theme")) {
         state.theme = localStorage.getItem("theme");
       }
       return state.theme;
+    },
+    getmask(state){
+      return state.mask
     },
     getIdx(state){
       return function(song){
@@ -86,6 +129,15 @@ export default new Vuex.Store({
         state.currentIndex=idx
         return idx
       }
+    },
+    getli(State){
+      return function(id){
+        let idx=State.likelist.indexOf(id);
+        return idx;
+      }
+    },
+    getLike(state){
+      return state.liked
     },
     getlist(state){
       return state.palylist[state.currentIndex]

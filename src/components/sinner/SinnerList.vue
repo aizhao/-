@@ -5,7 +5,7 @@
         <el-card class="box-card1" shadow="hover" @click="goto(item.id)">
           <el-image
             :src="item.img1v1Url + '?param=150y150'"
-            :fit="cover"
+            fit="cover"
             lazy
           ></el-image>
           <div>
@@ -37,7 +37,7 @@ export default {
 };
 </script>
 
-<style scope>
+<style scoped>
 
 .box-card1 {
   height: 230px;

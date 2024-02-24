@@ -23,7 +23,10 @@
 <script>
 export default {
   props: {
-    val: {},
+    val: {
+      type:Object,
+    },
+    idx:Number,
   },
   data() {
     return {
@@ -34,42 +37,48 @@ export default {
   mounted() {},
   methods: {
     Paly() {
-      console.log(this.val);
-        this.val.toggle();
+      console.log(this.val)
+      this.val.toggle();
+      console.log(this.val._computedWatchers.audio)
+      // eslint-disable-next-line vue/no-mutating-props
+    
     },
     next() {
-      var song = this.val._data.internalMusic;
-      var idx = this.$store.getters.getIdx(song);
-      this.$store.commit("setIdx", idx);
+      var idx= this.val.playIndex;
       var len = this.$store.getters.getLen;
-      if (idx === len - 1) {
-        console.log("最后一首歌了哦");
+      if (idx !== len - 1) {
+        // eslint-disable-next-line vue/no-mutating-props
+        // this.$emit("update:idx",this.idx+1)
+        // eslint-disable-next-line vue/no-mutating-props
+        this.val.playIndex++
+        this.currplay = idx+1;
       } else {
-        this.$store.commit("setnext");
-
-        // console.log(this.$store.getters.getIdx)
-
-        this.Paly();
-        console.log(this.$store.getters.getidx);
+        console.log("最后一首歌了哦");
       }
     },
     pre() {
-      var song = this.val._data.internalMusic;
-      var idx = this.$store.getters.getIdx(song);
-      this.$store.commit("setIdx", idx);
+      var idx= this.val.playIndex;
       if (idx === 0) {
         console.log("第一首歌了哦");
       } else {
-        this.Paly();
-        this.$store.commit("setpre");
+        // this.Paly();
+        // this.$store.commit("setpre");
+        // eslint-disable-next-line vue/no-mutating-props
+        this.val.playIndex--;
+        this.currplay = idx-1;
       }
     },
   },
-  watch: {},
+  watch: {
+    currplay(newval){
+      console.log(newval)
+      this.Paly();
+    }
+  },
 };
 </script>
 
-<style scope>
+<style scoped>
 .play {
   /* 居中 */
   display: flex;

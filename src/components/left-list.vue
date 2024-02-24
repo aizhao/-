@@ -53,6 +53,7 @@
 
 <script>
 import { _getUserList } from "@/api/music-list";
+import { _getMusicList } from "@/api/music-list";
 export default {
   data() {
     return {
@@ -63,8 +64,11 @@ export default {
     let uid = localStorage.getItem("uid");
     _getUserList(uid, 5).then((res) => {
       this.list = res.playlist;
+      console.log(this.list[0].id);
+      this.liked(this.list[0].id)
       console.log(res);
     });
+    
   },
   methods: {
     goto(index) {
@@ -75,6 +79,15 @@ export default {
         },
       });
     },
+    liked(id){
+      _getMusicList(id).then((res) => {
+        var like=[];
+        for(let i=0;i<res.privileges.length;i++){
+          like.push(JSON.parse(JSON.stringify(res.privileges[i].id)));
+        }
+        this.$store.commit('setlike',like);
+      });
+    }
   },
 };
 </script>

@@ -56,3 +56,8 @@ export function Status(){
         url:'/login/status',
     })
 }
+export function logout(){
+    return request({
+        url:'/logout',
+    })
+}

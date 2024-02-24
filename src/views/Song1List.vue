@@ -2,7 +2,12 @@
   <div class="box">
     <div class="header">
       <div>
-        <el-image :src="url+'?param=300y300'" fit="scale-down" class="block" lazy>
+        <el-image
+          :src="list.coverImgUrl + '?param=300y300'"
+          fit="scale-down"
+          class="block"
+          lazy
+        >
           <div slot="error" class="image-slot">
             <i class="el-icon-picture-outline"></i>
           </div>
@@ -21,9 +26,9 @@
           <el-avatar
             shape="square"
             size="medium"
-            :src="creator.avatarUrl+'?param=36y36'"
+            :src="list.creator.avatarUrl + '?param=36y36'"
           ></el-avatar>
-          <p>{{ creator.nickname }}</p>
+          <p>{{ list.creator.nickname }}</p>
           <p>{{ Time }}</p>
           <p>创建</p>
         </div>
@@ -33,7 +38,8 @@
             size="medium"
             type="primary"
             round
-            >播放</el-button
+            @click="play()"
+            >播放全部</el-button
           >
           <el-button
             icon="el-icon-s-comment"
@@ -54,21 +60,23 @@
         </div>
         <div class="description">
           <el-collapse>
-            <el-collapse-item title="介绍：" name="1">
+            <el-collapse-item title="介绍：点击展开" name="1">
               <div>{{ list.description }}</div>
             </el-collapse-item></el-collapse
           >
         </div>
       </div>
     </div>
-    <el-tabs v-model="activeName">
-      <el-tab-pane label="歌曲列表" name="first"
-        ><SongList :MusicList="MusicList"></SongList
-      ></el-tab-pane>
-      <el-tab-pane label="评论" name="second"
-        ><Comme :id="id"></Comme
-      ></el-tab-pane>
-    </el-tabs>
+    <div id="tabs">
+      <el-tabs v-model="activeName">
+        <el-tab-pane label="歌曲列表" name="first"
+          ><SongList :MusicList="MusicList"></SongList
+        ></el-tab-pane>
+        <el-tab-pane label="评论" name="second"
+          ><Comme :id="id"></Comme
+        ></el-tab-pane>
+      </el-tabs>
+    </div>
   </div>
 </template>
 
@@ -77,26 +85,34 @@ import { _getMusicList } from "@/api/music-list";
 import moment from "moment";
 import SongList from "@/components/SongList.vue";
 export default {
+  props: {
+    Id: {
+      type: String,
+    },
+  },
   components: {
     SongList: SongList,
   },
   data() {
     return {
-      id: 0,
-      url: "",
+      id: this.Id,
       list: [],
       MusicList: [],
       Time: "暂无",
-      creator: [],
       loading: true,
       activeName: "first",
     };
   },
   created() {
-    this.id = this.$route.query.id;
+    if (!this.id) this.id = this.$route.query.id;
     this.load();
   },
   methods: {
+    play() {
+      for (let i = 0; i < this.MusicList.length; i++) {
+        this.$Addmusic(this.MusicList[i].id, 0);
+      }
+    },
     goto() {
       this.activeName = "second";
     },
@@ -106,8 +122,6 @@ export default {
         if (res.code === 406) return;
         this.list = res.playlist;
         this.MusicList = this.list.tracks;
-        this.url = this.list.coverImgUrl;
-        this.creator = this.list.creator;
         let num = this.list.createTime;
         this.Time = moment(num).format("YYYY-MM-DD");
       });
@@ -117,11 +131,6 @@ export default {
 </script>
 
 <style scoped>
-.box {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-}
 h2 {
   display: inline;
 }
@@ -136,6 +145,7 @@ h1 {
   margin: 20px 40px;
 }
 .buttom {
+  margin: 10px 0;
 }
 ul {
   color: #656565;
@@ -161,12 +171,12 @@ ul li {
   flex-direction: row;
   /* justify-content: center; */
   align-items: center;
+  margin: 10px 0;
 }
 .avator p {
   margin-left: 14px;
 }
 .header {
-  margin: 20px 40px;
   width: 100%;
   height: 40%;
   display: flex;
@@ -186,6 +196,7 @@ ul li {
   height: 20%;
   text-align: left;
   justify-content: space-around;
+  margin-top: 25px;
 }
 .label {
   display: flex;
@@ -193,6 +204,7 @@ ul li {
   align-content: center;
   justify-content: flex-start;
   text-align: center;
+  margin: 10px 0;
 }
 .label ul {
   /* margin-left: 10px; */
@@ -202,13 +214,18 @@ ul li {
   flex-direction: row;
   /* justify-content: center; */
   align-items: center;
+  margin: 10px 0;
 }
 .tatel_header p {
   margin-left: 20px;
   font-size: 22px;
   font-weight: bold;
 }
-.el-icon-service {
+:deep(.el-icon-service) {
   font-size: 25px;
+}
+#tabs:deep(.el-tabs__item) {
+  height: 40px;
+  margin: 10px 0;
 }
 </style>

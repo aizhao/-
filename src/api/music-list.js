@@ -104,3 +104,36 @@ export function songdetail(ids){
         }
     })
 }
+export function recmendsongs(){
+    return request({
+        url:'/recommend/songs',
+       
+    })
+}
+export function recmendlist(){
+    return request({
+        url:'/recommend/resource',
+    })
+}
+export function get_rank(){
+    return request({
+        url:'/toplist',
+    })
+}
+export function _getcomment(id){
+    return request({
+        url:'/comment/music',
+        params:{
+            id:id,
+        }
+    })
+}
+export function likemusic(id,like){
+    return request({
+        url:'/like',
+        params:{
+            id:id,
+            like:like
+        }
+    })
+}

@@ -3,7 +3,6 @@
     <el-table
       :data="list.slice((currentPage - 1) * pagesize, currentPage * pagesize)"
       style="width: 1000px height: 750px"
-
     >
       <el-table-column label="" width="100px">
         <template slot-scope="scope">
@@ -12,7 +11,7 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="" width="1300px">
+      <el-table-column label="" width="900px">
         <template slot-scope="scope">
           <div class="nc">
             <a @click="moment1">{{ scope.row.user.nickname }}:</a
@@ -20,8 +19,13 @@
           </div>
           <div class="rp">
             <div class="time">{{ moment1(scope.row.time) }}</div>
-            <a @click="liked(scope.$index)"> <i class="icon-ala-039_dianzan5" :style="{color:Color(scope.row.liked)}"></i>({{ scope.row.likedCount
- }})</a>
+            <el-link @click="liked(scope.$index)">
+              <i
+                class="iconfont icon-a-039_dianzan3"
+                :style="{ color: Color(scope.row.liked) }"
+              ></i
+              >({{ scope.row.likedCount }})</el-link
+            >
           </div>
         </template>
       </el-table-column>
@@ -52,17 +56,16 @@ export default {
       list: [],
       currentPage: 1, // 初始页
       pagesize: 10,
-      f:0
+      f: 0,
     };
   },
-  created() {
-    commentList(this.id, 50).then((res) => {
-      console.log(res);
-      this.list = res.comments;
-    });
-
-  },
+  mounted() {},
   methods: {
+    load() {
+      commentList(this.id, 50).then((res) => {
+        this.list = res.comments;
+      });
+    },
     moment1(time) {
       return moment(time).format("YYYY-MM-DD HH:mm:ss");
     },
@@ -72,19 +75,26 @@ export default {
     handleCurrentChange: function (currentPage) {
       this.currentPage = currentPage; //点击第几页
     },
-    liked(index){
-      if(this.list[index].liked!==true)
-      {this.list[index].likedCount++
-      this.list[index].liked=true}
-      else{
-        this.list[index].likedCount--
-      this.list[index].liked=false
+    liked(index) {
+      if (this.list[index].liked !== true) {
+        this.list[index].likedCount++;
+        this.list[index].liked = true;
+      } else {
+        this.list[index].likedCount--;
+        this.list[index].liked = false;
       }
     },
-    Color(f){
-      if(f===true) return "Red"
-      return "black"
-    }
+    Color(f) {
+      if (f === true) return "Red";
+      return "black";
+    },
+  },
+  watch: {
+    id(val) {
+      if (val) {
+        this.load();
+      }
+    },
   },
 };
 </script>
@@ -124,16 +134,16 @@ export default {
   margin: 0 !important;
   color: #999;
 }
-.rp a{
+.rp a {
   margin-right: 30px;
   text-decoration: none;
-    color: #333;
-    cursor: pointer;
+  color: #333;
+  cursor: pointer;
 }
-.rp i{
+.rp i {
   font-size: 25px;
 }
-.rp i:hover{
+.rp i:hover {
   color: #fdfdfd;
 }
 </style>

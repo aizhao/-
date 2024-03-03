@@ -1,6 +1,5 @@
 <template>
   <div class="songs">
-    
     <div class="tableheader">
       <p>共{{ MusicList.length }}首歌单</p>
     </div>
@@ -30,32 +29,27 @@
             ></el-avatar
           ></template>
         </el-table-column>
-        <el-table-column  width="300">
+        <el-table-column width="300">
           <template slot-scope="scope">
-            <el-link @click="goto(scope.row.id)"
-              >{{ scope.row.name }}</el-link
-            >
+            <el-link @click="goto(scope.row.id)">{{ scope.row.name }}</el-link>
           </template>
         </el-table-column>
-        <el-table-column  width="150">
+        <el-table-column width="150">
           <template slot-scope="scope">
-            <p id="font">{{ scope.row.trackCount
- }}首</p>
+            <p id="font">{{ scope.row.trackCount }}首</p>
           </template>
         </el-table-column>
-        <el-table-column  width="150">
+        <el-table-column width="150">
           <template slot-scope="scope">
-            <el-link
-              >by{{ scope.row.creator.nickname }}</el-link
-            >
+            <el-link>by{{ scope.row.creator.nickname }}</el-link>
           </template>
         </el-table-column>
-        <el-table-column  width="150">
+        <el-table-column width="150">
           <template slot-scope="scope">
             <p id="font">收藏：{{ scope.row.bookCount }}</p>
           </template>
         </el-table-column>
-        <el-table-column  width="250">
+        <el-table-column width="250">
           <template slot-scope="scope">
             <p id="font">播放：{{ scope.row.playCount }}</p>
           </template>
@@ -106,7 +100,7 @@ export default {
       return true;
     },
     goto(id) {
-        this.$router.push({
+      this.$router.push({
         path: "/Song1List",
         query: {
           id: id,
@@ -135,7 +129,7 @@ export default {
 .el-icon-video-play {
   font-size: 18px;
 }
-#font{
-    color: #999999;
+#font {
+  color: #999999;
 }
 </style>

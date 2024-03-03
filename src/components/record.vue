@@ -14,7 +14,7 @@
       <span style="--i: 8"></span>
       <div class="scan" ref="scan"></div>
       <div class="profile">
-        <el-image :src="url+'?param=200y200'" class="Img"></el-image>
+        <el-image :src="url + '?param=200y200'" class="Img"></el-image>
       </div>
     </div>
   </div>
@@ -35,16 +35,16 @@ export default {
         const player = this.$refs.player;
         const scan = this.$refs.scan;
         if (Val === true) {
-            paddle.style.transform = "";
+          paddle.style.transform = "";
           paddle.style.transform = "rotate(0deg);";
           // peddle.style.transform="rotate(-40deg);"
           player.style.animationPlayState = "running";
-          scan.style.animationPlayState='running';
+          scan.style.animationPlayState = "running";
           player.style.animation = "rotate 8s linear infinite";
         } else {
           paddle.style.transform = "rotate(-40deg)";
           player.style.animationPlayState = "paused";
-          scan.style.animationPlayState='paused';
+          scan.style.animationPlayState = "paused";
         }
       },
       deep: true,

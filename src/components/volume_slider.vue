@@ -1,47 +1,50 @@
 <template>
   <div class="block">
-          <el-slider v-model="Value" :format-tooltip="formatTooltip"   vertical height="200px" @input="change()"> </el-slider>
-        </div>
+    <el-slider
+      v-model="Value"
+      :format-tooltip="formatTooltip"
+      vertical
+      height="200px"
+      @input="change()"
+    >
+    </el-slider>
+  </div>
 </template>
 
 <script>
 export default {
-    props: {
+  props: {
     val: {
       type: Object,
     },
   },
   data() {
-      return {
-        Value: 80,
-      }
-    },
+    return {
+      Value: 80,
+    };
+  },
 
-    methods: {
-      formatTooltip(Val) {
-        return Val
-      },
-      change(){
-        // eslint-disable-next-line vue/no-mutating-props
-       this.val.setAudioVolume(this.Value/100)
-        
-      },
-     
+  methods: {
+    formatTooltip(Val) {
+      return Val;
     },
-    mounted(){
-        // window.addEventListener("mouseup",this.changestate)
+    change() {
+      // eslint-disable-next-line vue/no-mutating-props
+      this.val.setAudioVolume(this.Value / 100);
     },
-    watch:{
+  },
+  mounted() {
+    // window.addEventListener("mouseup",this.changestate)
+  },
+  watch: {
     "val.internalVolume": {
       handler(newval) {
-        this.Value=newval*100
+        this.Value = newval * 100;
       },
       deep: true,
     },
-}
-}
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

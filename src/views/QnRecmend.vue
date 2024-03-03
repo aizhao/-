@@ -16,17 +16,28 @@
       <div class="describe">
         <div class="tatel_header1">
           <p id="cold">今日为你推荐:</p>
-          <el-link  target="_blank" type="primary" class="tuijian" @click="add(MusicList[0].id)">{{
-              MusicList[0].name
-            }} </el-link> <el-button type="primary" icon="iconfont icon-bofang" class="bofang" @click="add(MusicList[0].id)">播放</el-button>
-            <div class="mreason">
-            <div class="reason"> <p>{{ MusicList[0].reason}} </p></div>
+          <el-link
+            target="_blank"
+            type="primary"
+            class="tuijian"
+            @click="add(MusicList[0].id)"
+            >{{ MusicList[0].name }}
+          </el-link>
+          <el-button
+            type="primary"
+            icon="iconfont icon-bofang"
+            class="bofang"
+            @click="add(MusicList[0].id)"
+            >播放</el-button
+          >
+          <div class="mreason">
+            <div class="reason">
+              <p>{{ MusicList[0].reason }}</p>
+            </div>
             <el-link id="inf">{{ MusicList[0].ar[0].name }}</el-link>
             <el-link id="inf">{{ MusicList[0].al.name }}</el-link>
           </div>
-    
         </div>
-      
       </div>
     </div>
     <div>
@@ -35,7 +46,7 @@
           ><SongList :MusicList="MusicList"></SongList
         ></el-tab-pane>
         <el-tab-pane label="歌单" name="list"
-          ><commend :relist="relist"></commend
+          ><songslist :MusicList="relist"></songslist
         ></el-tab-pane>
       </el-tabs>
     </div>
@@ -45,30 +56,28 @@
 <script>
 import { recmendsongs } from "@/api/music-list";
 import SongList from "@/components/SongList.vue";
-import commend from "@/components/QnRecommend.vue";
 import { recmendlist } from "@/api/music-list";
+import songslist from "@/components/songslist";
 export default {
   components: {
     SongList: SongList,
-    commend: commend,
+    songslist: songslist,
   },
   data() {
     return {
-      ImgUrl: "",
       MusicList: [],
       activeName: "songs",
       relist: [],
     };
   },
-  created() {
+  mounted() {
     this.loadsongs();
   },
   methods: {
-    add(id){
-      this.$Addmusic(id,1);
+    add(id) {
+      this.$Addmusic(id, 1);
     },
     loadsongs() {
-      this.ImgUrl = localStorage.getItem("avatar");
       recmendsongs().then((res) => {
         console.log(res);
         this.MusicList = res.data.dailySongs;
@@ -76,16 +85,15 @@ export default {
     },
     loadlist() {
       recmendlist().then((res) => {
-        console.log(res);
         this.relist = res.recommend;
       });
     },
   },
   watch: {
     activeName(val) {
-      if (val == "songs") {
+      if (val === "songs") {
         this.loadsongs();
-      } else if (val == "list") {
+      } else if (val === "list") {
         this.loadlist();
       }
     },
@@ -94,28 +102,26 @@ export default {
 </script>
 
 <style scoped>
-
-.bofang{
+.bofang {
   margin-left: 10px;
 }
-#inf{
+#inf {
   margin-left: 10px;
-
 }
-.tatel_header1 p{
+.tatel_header1 p {
   margin: 10px 0;
 }
-.mreason{
-  display:flex;
+.mreason {
+  display: flex;
   margin: 10px 0;
 }
-.tatel_header1 a{
+.tatel_header1 a {
   margin: 10px 0;
 }
-.tatel_header1 button{
+.tatel_header1 button {
   margin: 10px 5px;
 }
-.describe{
+.describe {
   margin-top: 30px;
 }
 .recmend-tion {
@@ -123,26 +129,25 @@ export default {
   flex-direction: row;
   margin-top: 20px;
 }
-#cold{
-    font-size: 32px;
+#cold {
+  font-size: 32px;
 }
-.reason p{
+.reason p {
   padding: 3px;
   font-size: 16px !important;
   color: rgb(239, 45, 45);
   background-color: rgb(225, 148, 170);
   border-radius: 5px;
 }
-.tuijian{
+.tuijian {
   font-size: 30px;
- 
 }
 .block {
   margin: 40px;
   width: 200px;
   height: 200px;
 }
-.describe{
+.describe {
   width: 90%;
 }
 

@@ -18,31 +18,51 @@
       <a class="search-btn" @click="goto()"><i class="el-icon-search"></i></a>
     </div>
     <el-card class="box-card" v-show="show == true">
-      <el-table :data="hotlist" class="table" style="width: 230px" v-show="!msg">
+      <el-table
+        :data="hotlist"
+        class="table"
+        style="width: 230px"
+        v-show="!msg"
+      >
         <el-table-column type="index" :index="indexMethod" width="50">
         </el-table-column>
         <el-table-column label="热门搜索" width="180">
           <template slot-scope="scope">
-            <el-link target="_blank" @click="addmsg(scope.row.searchWord)">{{ scope.row.searchWord }}</el-link>
+            <el-link target="_blank" @click="addmsg(scope.row.searchWord)">{{
+              scope.row.searchWord
+            }}</el-link>
           </template>
         </el-table-column>
       </el-table>
       歌曲：
-      <el-table :data="suggestlist.songs" style="width: 230px " :show-header="false" v-show="msg">
-        <el-table-column  >
-            <template slot-scope="scope">
-            <el-link @click="add(scope.row.id)">{{ scope.row.name }}—{{ scope.row.artists[0].name }}</el-link>
+      <el-table
+        :data="suggestlist.songs"
+        style="width: 230px"
+        :show-header="false"
+        v-show="msg"
+      >
+        <el-table-column>
+          <template slot-scope="scope">
+            <el-link @click="add(scope.row.id)"
+              >{{ scope.row.name }}—{{ scope.row.artists[0].name }}</el-link
+            >
           </template>
         </el-table-column>
       </el-table>
       歌手：
-      <el-table :data="suggestlist.artists" style="width: 230px " :show-header="false" v-show="msg">
-        <el-table-column  >
-            <template slot-scope="scope">
-            <el-link @click="gotosinner(scope.row.id)" >{{ scope.row.name }}</el-link>
+      <el-table
+        :data="suggestlist.artists"
+        style="width: 230px"
+        :show-header="false"
+        v-show="msg"
+      >
+        <el-table-column>
+          <template slot-scope="scope">
+            <el-link @click="gotosinner(scope.row.id)">{{
+              scope.row.name
+            }}</el-link>
           </template>
         </el-table-column>
-       
       </el-table>
     </el-card>
   </div>
@@ -63,8 +83,7 @@ export default {
   },
   mounted() {
     _searchhot().then((res) => {
-      this.hotlist = res.data
-      console.log(res);
+      this.hotlist = res.data;
     });
   },
   methods: {
@@ -80,36 +99,35 @@ export default {
       this.$refs.input1.style.width = "0";
       this.$refs.input1.style.padding = "0 ";
     },
-    add(id){
-        this.$Addmusic(id,1)
-        this.$store.commit('OpenMask')
+    add(id) {
+      this.$Addmusic(id, 1);
+      this.$store.commit("OpenMask");
     },
-    addmsg(Msg){
-        this.msg = Msg
+    addmsg(Msg) {
+      this.msg = Msg;
     },
-    goto(){
-        this.$router.push({
+    goto() {
+      this.$router.push({
         path: "/SearchList",
         query: {
           msg: this.msg,
         },
       });
     },
-    gotosinner(id){
+    gotosinner(id) {
       this.$router.push({
         path: "/sinner",
         query: {
           id: id,
         },
       });
-    }
+    },
   },
   watch: {
     msg(val) {
       if (val) {
         _suggest(val).then((res) => {
-          console.log(res);
-          this.suggestlist = res.result
+          this.suggestlist = res.result;
         });
       }
     },

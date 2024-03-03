@@ -1,51 +1,60 @@
 <template>
   <div id="app">
-    <SongMask :val.sync="val" class="mask" v-show="this.$store.getters.getmask"></SongMask>
-  <el-container class="contain" v-show="!this.$store.getters.getmask">
-    <el-header height="10%"><QnNavbar></QnNavbar> </el-header>
-    <el-container>
-      <el-aside width="18%"><left-list></left-list></el-aside>
-      <el-main>
-        <keep-alive>
-          <router-view v-if="$route.meta.keepAlive" :key="$route.fullPath"
-        /></keep-alive>
-        <router-view v-if="!$route.meta.keepAlive" :key="$route.fullPath" />
-      </el-main>
+    <SongMask
+      :val.sync="val"
+      class="mask"
+      v-show="this.$store.getters.getmask"
+    ></SongMask>
+    <el-container class="contain" v-show="!this.$store.getters.getmask">
+      <floatButton
+        @handlepaly="handleaudioplay"
+        style="cursor: pointer"
+      ></floatButton>
+      <el-header height="10%"><QnNavbar></QnNavbar> </el-header>
+      <el-container>
+        <el-aside width="18%"><left-list></left-list></el-aside>
+        <el-main>
+          <keep-alive>
+            <router-view v-if="$route.meta.keepAlive" :key="$route.fullPath"
+          /></keep-alive>
+          <router-view v-if="!$route.meta.keepAlive" :key="$route.fullPath" />
+        </el-main>
 
-      <el-radio-group v-model="direction"> </el-radio-group>
+        <el-radio-group v-model="direction"> </el-radio-group>
 
-      <el-button @click="open()" style="margin-left: 16px">
-        音乐列表({{ this.$store.state.palylist.length }})
-      </el-button>
-      <el-drawer
-        :visible.sync="drawer"
-        :direction="direction"
-        size="25%"
-        withHeader:false
-        @open="open1()"
-      >
-        <play :val.sync="val"></play>
-        <aPlayer
-          ref="media"
-          :songInfo="this.$store.state.palylist[index]"
-          :key="this.$store.state.key"
-          :list="this.$store.getters.getPlaylist"
-          
-        />
-      </el-drawer>
+        <el-button @click="open()" style="margin-left: 16px">
+          <p class="name">音乐列表({{ this.$store.state.palylist.length }})</p>
+        </el-button>
+        <el-drawer
+          :visible.sync="drawer"
+          :direction="direction"
+          size="25%"
+          withHeader:false
+          @open="open1()"
+        >
+          <play :val.sync="val"></play>
+          <aPlayer
+            ref="media"
+            :songInfo="this.$store.state.palylist[index]"
+            :key="this.$store.state.key"
+            :list="this.$store.getters.getPlaylist"
+          />
+        </el-drawer>
+      </el-container>
     </el-container>
-  </el-container></div>
+  </div>
 </template>
 
 <script>
 import aPlayer from "@/components/Aplayer.vue";
 import play from "@/components/play/play.vue";
-
+import floatButton from "@/components/float-button.vue";
 // 引入searchlist.vue
 export default {
   components: {
     aPlayer: aPlayer,
     play: play,
+    floatButton: floatButton,
   },
   data() {
     return {
@@ -62,16 +71,28 @@ export default {
   created() {
     this.num = 1;
   },
-  mounted(){
+  mounted() {
     // const contain=this.$refs.contain;
     // // 屏幕高度
     // contain.style.height=document.body.clientHeight+'px';
   },
   methods: {
+    handleaudioplay() {
+      var len = this.$store.getters.getLen;
+      if (len === 0) {
+        this.$message({
+          message: "还没有添加任何歌曲哦",
+          type: "warning",
+          showClose: true,
+        });
+      } else {
+        this.$store.commit("OpenMask");
+      }
+    },
     open1() {
       this.$nextTick(() => {
         this.val = this.$refs.media.$children[0];
-        this.$store.commit('setval',this.val)
+        this.$store.commit("setval", this.val);
       });
     },
     open() {
@@ -83,33 +104,20 @@ export default {
   },
   watch: {
     "$store.state.palylist"(Val) {
-      const h = this.$createElement;
       if (Val.length == 1) {
-        this.$notify({
-       
-          message: h(
-            "i",
-            { style: "color: teal" },
-            "亲，可点击右方播放列表按钮来找到添加的歌曲哦"
-          ),
-          position: "top-left",
-          offset: 400,
-          duration:3000
-        });
         this.open();
         setTimeout(() => {
           this.close();
         }, 3000);
-      }
-      else{
-        this.open1()
+      } else {
+        this.open1();
       }
     },
-    'val.playIndex': {
-      handler(newval){
-        this.index=newval
-        },
-      deep:true
+    "val.playIndex": {
+      handler(newval) {
+        this.index = newval;
+      },
+      deep: true,
     },
   },
 };
@@ -118,9 +126,8 @@ export default {
 :deep(.operation-wrapper) {
   width: 100% !important;
 }
-.mask{
+.mask {
   transition: 1s;
-  
 }
 :deep(.el-drawer.rtl) {
   height: 100%;
@@ -138,6 +145,10 @@ export default {
   z-index: 3;
   top: 0;
   padding: 0;
+}
+.name {
+  position: relative;
+  top: -15%;
 }
 .el-aside {
   position: fixed;

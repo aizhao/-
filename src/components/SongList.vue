@@ -1,14 +1,13 @@
 <template>
   <div class="songs">
-
     <div class="tableheader">
       <p>共{{ MusicList.length }}首歌</p>
     </div>
     <div class="songstable">
       <el-table
-        v-loading="loading"
+        v-loading="Loading"
         :data="
-          piclist.slice((currentPage - 1) * pagesize, currentPage * pagesize)
+          MusicList.slice((currentPage - 1) * pagesize, currentPage * pagesize)
         "
         stripe
         style="width:1000px height: 750px;"
@@ -16,8 +15,14 @@
         <el-table-column type="index" :index="indexMethod"> </el-table-column>
         <el-table-column width="50"
           ><template slot-scope="scope">
-            <el-button size="small" circle @click="Goto(scope.row.id)"
-              ><i class="iconfont icon-bofang"> </i></el-button
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="进入心动模式"
+              placement="top"
+            >
+              <el-button size="small" circle @click="Goto(scope.row.id)"
+                ><i class="iconfont icon-bofang"> </i></el-button></el-tooltip
           ></template>
         </el-table-column>
         <el-table-column width="80"
@@ -32,18 +37,46 @@
         </el-table-column>
         <el-table-column label="歌曲标题" width="200">
           <template slot-scope="scope">
-            <el-link @click="goto(scope.row.id)">{{ scope.row.name }}</el-link>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="立即播放"
+              placement="top"
+            >
+              <el-link @click="goto(scope.row.id)">{{
+                scope.row.name
+              }}</el-link></el-tooltip
+            >
           </template>
         </el-table-column>
+        <!-- <el-table-column  width="50">
+          <template slot-scope="scope">
+            <el-button type="primary" icon="el-icon-plus" @click="goto(scope.row.id)" circle></el-button>
+          </template>
+        </el-table-column> -->
         <el-table-column prop="dt" label="时长" width="200">
           <template slot-scope="scope">
             <span>{{ dayjs(scope.row.dt).format("mm:ss") }}</span>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="添加到播放列表"
+              placement="top"
+            >
+              <el-button
+                size="small"
+                icon="el-icon-plus"
+                @click="goto1(scope.row.id)"
+                circle
+                class="add"
+              ></el-button
+            ></el-tooltip>
           </template>
         </el-table-column>
         <el-table-column label="歌手" width="260">
           <template slot-scope="scope">
             <el-link
-              @click="goto(scope.row.id)"
+              @click="goto2(scope.row.ar[idx].id)"
               target="_blank"
               v-for="(item, idx) in scope.row.ar.slice(
                 0,
@@ -54,7 +87,7 @@
             >
             <el-link
               v-if="scope.row.ar.length < 4"
-              @click="goto(scope.row.id)"
+              @click="goto2(scope.row.ar[scope.row.ar.length - 1].id)"
               target="_blank"
               >{{ scope.row.ar[scope.row.ar.length - 1].name }}</el-link
             >
@@ -68,9 +101,7 @@
         </el-table-column>
         <el-table-column label="专辑" width="360">
           <template slot-scope="scope">
-            <el-link href="https://element.eleme.io" target="_blank">{{
-              scope.row.al.name
-            }}</el-link>
+            <el-link target="_blank">{{ scope.row.al.name }}</el-link>
           </template>
         </el-table-column>
       </el-table>
@@ -92,7 +123,6 @@
 <script>
 import dayjs from "dayjs";
 import { CheckMusic } from "@/api/Music-Play";
-import { songdetail } from "@/api/music-list";
 export default {
   props: {
     MusicList: [],
@@ -115,49 +145,31 @@ export default {
         theme: "",
       },
       num: 0,
-      piclist: this.MusicList,
     };
   },
-  watch: {
-    MusicList(val) {
-      console.log(val);
-      this.getpic();
-    },
-  },
   created() {
-    setTimeout(() => {
-      this.loading = false;
-    }, 1000);
-   
+
+  },
+  mounted() {},
+  computed: {
+    Loading(){
+      return this.MusicList.length>0?false:true;
+    }
   },
   methods: {
-    getpic() {
-      var s = "";
-      for (let i = 0; i < this.MusicList.length; i++) {
-        if (i != this.MusicList.length - 1) s = s + this.MusicList[i].id + ",";
-        else s = s + this.MusicList[i].id;
-      }
-      console.log(s);
-      songdetail(s).then((res) => {
-        console.log(res);
-        this.piclist = res.songs;
-        console.log(this.piclist);
-      });
-    },
     errorHandler() {
       return true;
     },
-    Goto(id){
-      this.$store.commit('OpenMask')
+    Goto(id) {
+      this.$store.commit("OpenMask");
       CheckMusic(id).then((res) => {
         if (res.success === true) {
-          console.log(this.$store.state.palylist)
-          if(this.$store.state.palylist.length===0||this.$store.state.palylist[0].uid!==id) {
-            this.$Addmusic(id,1);
-
+          if (
+            this.$store.state.palylist.length === 0 ||
+            this.$store.state.palylist[0].uid !== id
+          ) {
+            this.$Addmusic(id, 1);
           }
-       
-          
         } else {
           this.$alert("亲爱的，暂无版权", "抱歉", {
             confirmButtonText: "返回",
@@ -169,17 +181,36 @@ export default {
           });
         }
       });
-      
     },
-    updateCurrent(){
-      
+    updateCurrent() {},
+    goto2(id) {
+      this.$router.push({
+        path: "/sinner",
+        query: {
+          id: id,
+        },
+      });
     },
-
+    goto1(id) {
+      CheckMusic(id).then((res) => {
+        if (res.success === true) {
+          this.$Addmusic(id, 0);
+        } else {
+          this.$alert("亲爱的，暂无版权", "抱歉", {
+            confirmButtonText: "返回",
+            callback: () => {
+              this.$message({
+                type: "info",
+              });
+            },
+          });
+        }
+      });
+    },
     goto(id) {
       CheckMusic(id).then((res) => {
         if (res.success === true) {
-          this.$Addmusic(id,1);
-          console.log(this.$store.state.palylist);
+          this.$Addmusic(id, 1);
         } else {
           this.$alert("亲爱的，暂无版权", "抱歉", {
             confirmButtonText: "返回",
@@ -204,6 +235,13 @@ export default {
     },
   },
   // 解决打开弹窗 el-table 抖动问题
+  // watch: {
+  //   MusicList(val) {
+  //     if (val) {
+  //       this.loading = false;
+  //     }
+  //   },
+  // },
 };
 </script>
 
@@ -228,5 +266,8 @@ h2 {
 }
 :deep(.el-icon-video-play) {
   font-size: 18px;
+}
+.add {
+  margin-left: 30px;
 }
 </style>

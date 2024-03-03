@@ -11,7 +11,9 @@
     </div>
     <div class="title">
       <p>{{ val.internalMusic.title }}</p>
-      <el-link>{{ val.internalMusic.artist }}</el-link>
+      <el-link @click="goto(val.internalMusic.artistid)">{{
+        val.internalMusic.artist
+      }}</el-link>
     </div>
 
     <div class="he">
@@ -39,14 +41,18 @@
         <el-button :icon="likeicon" circle @click="Liked()"></el-button>
       </el-tooltip>
       <el-tooltip class="item" effect="dark" content="评论" placement="top">
-        <el-badge :value="CommentList.total>999?'999+':CommentList.total" class="item">
+        <el-badge
+          :value="CommentList.total > 999 ? '999+' : CommentList.total"
+          class="item"
+        >
           <el-button
             icon="el-icon-chat-dot-square"
+            @click="Goto()"
             circle
           ></el-button> </el-badge
       ></el-tooltip>
       <el-tooltip class="item" effect="dark" content="下载" placement="top">
-        <el-button icon="el-icon-download" circle></el-button>
+        <el-button icon="el-icon-download" @click="Goto()" circle></el-button>
       </el-tooltip>
       <el-popover placement="top" width="25" trigger="hover">
         <div style="display: flex; justify-content: center">
@@ -140,10 +146,12 @@ export default {
     console.log(this.val);
     //传入初始歌词文本text
     this.FormatLrc();
-    console.log(this.lyric);
   },
   mounted() {},
   methods: {
+    Goto() {
+      this.$message.error("功能暂未开发！");
+    },
     mode_Change() {
       this.val.setNextMode();
     },
@@ -153,9 +161,8 @@ export default {
     Liked() {
       var li = this.$store.getters.getli(this.id);
       var flag = li >= 0 ? false : true;
-      console.log(li);
+
       likemusic(this.id, flag).then((res) => {
-        console.log(res);
         if (res.code === 200) {
           if (flag === true) {
             this.$store.commit("addlike", this.id);
@@ -177,16 +184,23 @@ export default {
         }
       });
     },
+    goto(id) {
+      this.$router.push({
+        path: "/sinner",
+        query: {
+          id: id,
+        },
+      });
+      this.goBack();
+    },
     CommentLoad() {
       _getcomment(this.id).then((res) => {
-        console.log(res);
         this.CommentList = res;
       });
     },
     FormatLrc() {
       this.lyric = [];
       this.id = this.$store.state.palylist[this.val.playIndex].uid;
-      console.log(this.id);
       this.CommentLoad();
       this.loadlike();
       var text = this.$store.state.palylist[this.val.playIndex].lrc;
@@ -207,11 +221,11 @@ export default {
         });
       }
       this.lyric.sort(this.sortRule); //由于不同时间的相同歌词我们给排到一起了，所以这里要以时间顺序重新排列一下
-      console.log(this.lyric);
     },
     sortRule(a, b) {
       //设置一下排序规则
-      return a.time < b.time;
+
+      return a.time < b.time ? -1 : a.time > b.time ? 1 : 0;
     },
     goBack() {
       this.$store.commit("CloseMask");
@@ -233,7 +247,13 @@ export default {
         this.val.playIndex++;
         this.currplay = idx + 1;
       } else {
-        console.log("最后一首歌了哦");
+        // eslint-disable-next-line vue/no-mutating-props
+        this.val.playIndex = 0;
+        this.currplay = 0;
+        this.$message({
+          showClose: true,
+          message: "已从列表第一首开始播放",
+        });
       }
       setTimeout(() => {
         this.val.audio.play();
@@ -241,8 +261,15 @@ export default {
     },
     pre() {
       var idx = this.val.playIndex;
+      var len = this.$store.getters.getLen;
       if (idx === 0) {
-        console.log("第一首歌了哦");
+        // eslint-disable-next-line vue/no-mutating-props
+        this.val.playIndex = len - 1;
+        this.currplay = len - 1;
+        this.$message({
+          showClose: true,
+          message: "已从列表最后一首开始播放",
+        });
       } else {
         // this.Paly();
         // this.$store.commit("setpre");
@@ -262,7 +289,6 @@ export default {
         this.likeicon = "iconfont icon-aixin";
         this.like = "添加到我的喜欢";
       }
-      console.log(this.likeicon);
     },
   },
   watch: {
@@ -281,10 +307,9 @@ export default {
     },
     "val.playStat.playedTime": {
       handler(newval) {
-      
         this.lyric.forEach((element, index) => {
           if (Math.ceil(newval) == element.time) {
-            this.lyricMove.top = -index * 2.5 + 6 + "rem";
+            this.lyricMove.top = -index * 2 + 6 + "rem";
             this.currentRow = index; //通过比较我们歌词属性里的时间与当前播放时间，来定位到该歌词
           }
         });
@@ -330,17 +355,15 @@ export default {
     },
     "val.repeatMode": {
       handler(newval) {
-        if (newval === "repeat-one"){
+        if (newval === "repeat-one") {
           this.playmode = "iconfont icon-media_repeat_one";
           this.play = "单曲循环";
-        }
-        else if (newval === "no-repeat") {
+        } else if (newval === "no-repeat") {
           this.playmode = "iconfont iconfont icon-media_shuffle";
           this.play = "随机播放";
-          
         } else {
           this.playmode = "iconfont icon-suijibofang";
-          this.play="顺序播放"
+          this.play = "顺序播放";
         }
       },
 
@@ -401,11 +424,12 @@ p {
   align-items: center;
   height: 33rem;
   width: 600px;
-  overflow: hidden;
+  overflow-y: scroll;
   margin-left: 150px;
+  margin-top: 20px;
 }
 .lyric-row {
-  height: 2.5rem;
+  height: 3rem;
 }
 
 .close:deep(.el-page-header__title) {
@@ -442,13 +466,14 @@ p {
 #mask {
   position: relative;
   /* background-color: rgb(255, 255, 255); */
-  z-index: 999;
+  z-index: 2;
   opacity: 1;
   margin: 0;
   padding: 0;
   height: 100%;
   background-size: cover;
   background-position: center center;
+  /* background: rgb(0,0,0,.6); */
 }
 #mask::after {
   content: "";
@@ -459,7 +484,28 @@ p {
   width: 100%;
   height: 99.9%;
   z-index: -1;
+  /* filter: grayscale(1); */
+  /* _webkit-filter: grayscale(1); */
+  /* filter: blur(5px); */
+  /* background-color: #504d4d; */
+  /* opacity: 0.5; */
   backdrop-filter: blur(150px);
+}
+#mask::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  /* opacity: 0.1; */
+  /* _webkit-filter: grayscale(1); */
+  /* filter: blur(5px); */
+  background: rgb(0, 0, 0, 0.4);
+  /* opacity: 0.5; */
+  /* backdrop-filter: blur(150px); */
 }
 .play {
   /* 居中 */

@@ -4,7 +4,8 @@ export function _getmusic(id,level){
         url:'/song/url/v1',
         params:{
             id: id,
-            level:level
+            level:level,
+            cookie:localStorage.getItem("cookie")
         }
     })
 }

@@ -2,15 +2,30 @@
   <div class="box">
     <div class="header">
       <div>
+        <el-skeleton style="width: 240px" :loading="Loading">
+          <template slot="template">
+            <el-skeleton-item
+              variant="image"
+              style="width: 250px; height: 250px"
+            />
+          </template>
+        </el-skeleton>
         <el-image
-          :src="list.coverImgUrl + '?param=300y300'"
+          v-if="list.coverImgUrl"
+          :src="coverImgUrl + '?param=300y300'"
           fit="scale-down"
           class="block"
+          v-loading="Loading"
+          :preview-src-list="srcList"
+          @error="error()"
           lazy
         >
-          <div slot="error" class="image-slot">
-            <i class="el-icon-picture-outline"></i>
+          <div slot="placeholder" class="image-slot">
+            加载中<span class="dot">...</span>
           </div>
+          <!-- <div slot="error" class="image-slot">
+            <i class="el-icon-picture-outline"></i>
+          </div> -->
         </el-image>
       </div>
 
@@ -26,9 +41,10 @@
           <el-avatar
             shape="square"
             size="medium"
+            v-if="list.creator"
             :src="list.creator.avatarUrl + '?param=36y36'"
           ></el-avatar>
-          <p>{{ list.creator.nickname }}</p>
+          <p v-if="list.creator">{{ list.creator.nickname }}</p>
           <p>{{ Time }}</p>
           <p>创建</p>
         </div>
@@ -59,8 +75,13 @@
           </ul>
         </div>
         <div class="description">
-          <el-collapse>
-            <el-collapse-item title="介绍：点击展开" name="1">
+          <el-collapse @change="handleChange">
+            <el-collapse-item name="1">
+              <template slot="title">
+                <p>介绍:</p>
+                <p id="introduce" v-if="show">{{ list.description }}</p>
+                <span id="prompt">{{ prompt }}</span>
+              </template>
               <div>{{ list.description }}</div>
             </el-collapse-item></el-collapse
           >
@@ -70,7 +91,7 @@
     <div id="tabs">
       <el-tabs v-model="activeName">
         <el-tab-pane label="歌曲列表" name="first"
-          ><SongList :MusicList="MusicList"></SongList
+          ><SongList :MusicList="piclist"></SongList
         ></el-tab-pane>
         <el-tab-pane label="评论" name="second"
           ><Comme :id="id"></Comme
@@ -84,6 +105,8 @@
 import { _getMusicList } from "@/api/music-list";
 import moment from "moment";
 import SongList from "@/components/SongList.vue";
+import { songdetail } from "@/api/music-list";
+import Comme from "@/components/CommeList.vue";
 export default {
   props: {
     Id: {
@@ -92,6 +115,7 @@ export default {
   },
   components: {
     SongList: SongList,
+    Comme: Comme,
   },
   data() {
     return {
@@ -101,13 +125,38 @@ export default {
       Time: "暂无",
       loading: true,
       activeName: "first",
+      piclist: [],
+      s: "",
+      prompt: "展开",
+      show: true,
+      coverImgUrl: "",
+      srcList: [],
     };
   },
-  created() {
+  computed: {
+    Loading() {
+      return this.coverImgUrl ? false : true;
+    },
+  },
+  mounted() {
     if (!this.id) this.id = this.$route.query.id;
     this.load();
   },
   methods: {
+    // error() {
+    //   console.log(this.coverImgUrl);
+    //   this.coverImgUrl = this.list.coverImgUrl;
+    //   this.$forceUpdate();
+    // },
+    handleChange() {
+      if (this.prompt === "收起") {
+        this.prompt = "展开";
+        this.show = true;
+      } else {
+        this.prompt = "收起";
+        this.show = false;
+      }
+    },
     play() {
       for (let i = 0; i < this.MusicList.length; i++) {
         this.$Addmusic(this.MusicList[i].id, 0);
@@ -118,12 +167,27 @@ export default {
     },
     load() {
       _getMusicList(this.id).then((res) => {
-        console.log(res);
-        if (res.code === 406) return;
         this.list = res.playlist;
+        this.coverImgUrl = res.playlist.coverImgUrl;
+        this.srcList.push(this.coverImgUrl);
         this.MusicList = this.list.tracks;
         let num = this.list.createTime;
         this.Time = moment(num).format("YYYY-MM-DD");
+        this.getpic();
+      });
+    },
+    getpic() {
+      for (let i = 0; i < this.MusicList.length; i++) {
+        if (i != this.MusicList.length - 1)
+          this.s = this.s + this.MusicList[i].id + ",";
+        else this.s = this.s + this.MusicList[i].id;
+      }
+
+      this.get_pic();
+    },
+    get_pic() {
+      songdetail(this.s).then((res) => {
+        this.piclist = res.songs;
       });
     },
   },
@@ -131,6 +195,12 @@ export default {
 </script>
 
 <style scoped>
+#introduce {
+  width: 85%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 h2 {
   display: inline;
 }
@@ -227,5 +297,16 @@ ul li {
 #tabs:deep(.el-tabs__item) {
   height: 40px;
   margin: 10px 0;
+}
+#prompt {
+  /* 靠最右边 */
+  position: absolute;
+  /* display: flex; */
+  right: 30px;
+
+  /* margin-left: 30px; */
+}
+.description:deep(.el-collapse-item__header) {
+  position: relative;
 }
 </style>

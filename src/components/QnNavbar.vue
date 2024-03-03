@@ -7,21 +7,29 @@
       <li class="li-left">
         <router-link :to="{ path: '/QnRecmend' }">个性推荐</router-link>
       </li>
-      <li class="li-left"><router-link :to="{ path: '/QnSinner' }">歌手</router-link></li>
-      <li class="li-left"><router-link :to="{ path: '/rankingList' }">排行榜</router-link></li>
+      <li class="li-left">
+        <router-link :to="{ path: '/QnSinner' }">歌手</router-link>
+      </li>
+      <li class="li-left">
+        <router-link :to="{ path: '/rankingList' }">排行榜</router-link>
+      </li>
       <li class="li-left"><QnSearchbar></QnSearchbar></li>
-      <li class="li-left" id="login" v-show="flag===0">
+      <li class="li-left" id="login" v-show="flag === 0">
         <el-popover placement="bottom" width="150" trigger="hover">
           <div class="elogin">
             <div class="item">
-              <el-button type="info" icon="el-icon-user">个人信息</el-button>
+              <el-button type="info" icon="el-icon-user" @click="Goto()"
+                >个人信息</el-button
+              >
             </div>
             <div class="item">
-              <el-button type="danger" icon="el-icon-back" @click="out()">退出登录</el-button>
+              <el-button type="danger" icon="el-icon-back" @click="out()"
+                >退出登录</el-button
+              >
             </div>
           </div>
 
-          <router-link :to="{ path: '/QnAvator' }" slot="reference"
+          <router-link :to="{ path: '/' }" slot="reference"
             ><el-avatar :src="uidurl"></el-avatar
           ></router-link>
         </el-popover>
@@ -33,8 +41,7 @@
   </div>
 </template>
 <script>
-import { Status } from "@/api/login";
-import {logout} from "@/api/login";
+import { logout } from "@/api/login";
 export default {
   data() {
     return {
@@ -45,29 +52,39 @@ export default {
   },
   // 获取登录状态
   mounted() {
-    Status().then((res) => {
-      console.log(res);
-      if (res.data.account.status === 0) {
-        this.flag = 0;
-        this.uidurl = res.data.profile.avatarUrl;
-      }
-    });
+    let uid = localStorage.getItem("uid");
+    if (uid) {
+      this.flag = 0;
+      this.uidurl = localStorage.getItem("avatar");
+    } else {
+      this.flag = 1;
+      this.$router.push({
+        path: "/QnLogin",
+      });
+    }
   },
   methods: {
-    out(){
+    Goto() {
+      this.$message.error("功能暂未开发！");
+    },
+    out() {
       logout().then((res) => {
         console.log(res);
         if (res.code === 200) {
           this.$notify({
-          title: '已成功退出',
-          type: 'success',
-          duration:2000
-        });
-        this.flag = 1;
+            title: "已成功退出",
+            type: "success",
+            duration: 2000,
+          });
+          this.flag = 1;
+          localStorage.clear();
+          this.$router.push({
+            path: "/QnLogin",
+          });
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

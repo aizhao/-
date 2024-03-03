@@ -13,7 +13,7 @@ export function _login(phone,password){
         url:'/login/cellphone',
         params:{
             phone:phone,
-            password:password
+            password:password,
         }
     })
 }
@@ -23,7 +23,8 @@ export function _getSongList(id){
     return request({
         url:'/user/playlist',
         params:{
-            uid:id
+            uid:id,
+            cookie:localStorage.getItem("cookie")
         }
     })
 }
@@ -39,7 +40,8 @@ export function GetUser(uid){
     return request({
         url:'/user/detail',
         params:{
-            uid:uid
+            uid:uid,
+            cookie:localStorage.getItem("cookie")
         }
     })
 }
@@ -47,7 +49,8 @@ export function GetuserGrade(uid){
     return request({
         url:'/user/subcount',
         params:{
-          uid:uid
+          uid:uid,
+          cookie:localStorage.getItem("cookie")
         }
     })
 }

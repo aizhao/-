@@ -1,4 +1,3 @@
-
 import Vue from "vue";
 import Vuex from "vuex";
 
@@ -21,48 +20,48 @@ export default new Vuex.Store({
     sequenceList: [],
     palylist: [],
     currentIndex: 0,
-    key:0,
-    falg:false,
-    mask:false,
-    val:{},
-    curren:0,
-    likelist:[],
-    liked:true
+    key: 0,
+    falg: false,
+    mask: false,
+    val: {},
+    curren: 0,
+    likelist: [],
+    liked: true,
   },
   mutations: {
     setTheme(state, theme) {
       state.theme = theme;
       localStorage.setItem("theme", theme);
     },
-    setval(state,Val){
-      state.val=Val
+    setval(state, Val) {
+      state.val = Val;
     },
-    setlike(state,Val){
-      state.likelist=Val
-    }, 
-    addlike(state,id){
-        state.likelist.unshift(JSON.parse(JSON.stringify(id)));
+    setlike(state, Val) {
+      state.likelist = Val;
     },
-    poplike(state,idx){
+    addlike(state, id) {
+      state.likelist.unshift(JSON.parse(JSON.stringify(id)));
+    },
+    poplike(state, idx) {
       state.likelist.splice(idx, 1);
     },
     CloseMask(state) {
-      state.mask =false;
+      state.mask = false;
     },
-    OpenMask(state){
-      state.mask=true;
+    OpenMask(state) {
+      state.mask = true;
     },
-    setplay(state,songs){
-      state.palylist=songs;
+    setplay(state, songs) {
+      state.palylist = songs;
     },
     setIdx(state, index) {
-      state.currentIndex=index;
+      state.currentIndex = index;
     },
-    setnext(state){
-      state.currentIndex=state.currentIndex+1;
+    setnext(state) {
+      state.currentIndex = state.currentIndex + 1;
     },
-    setpre(state){
-      state.currentIndex=state.currentIndex-1;
+    setpre(state) {
+      state.currentIndex = state.currentIndex - 1;
     },
     setPlaylist(state, list) {
       state.palylist = list;
@@ -73,7 +72,7 @@ export default new Vuex.Store({
       if (idx >= 0) {
         state.palylist.splice(idx, 1);
       }
-     
+
       state.palylist.unshift(JSON.parse(JSON.stringify(song)));
     },
     addSongToPlaylist2(state, song) {
@@ -81,7 +80,7 @@ export default new Vuex.Store({
       if (idx >= 0) {
         state.palylist.splice(idx, 1);
       }
-     
+
       state.palylist.push(JSON.parse(JSON.stringify(song)));
     },
     setToken(state, token) {
@@ -120,35 +119,33 @@ export default new Vuex.Store({
       }
       return state.theme;
     },
-    getmask(state){
-      return state.mask
+    getmask(state) {
+      return state.mask;
     },
-    getIdx(state){
-      return function(song){
+    getIdx(state) {
+      return function (song) {
         let idx = findIndex(state.palylist, song);
-        state.currentIndex=idx
-        return idx
-      }
-    },
-    getli(State){
-      return function(id){
-        let idx=State.likelist.indexOf(id);
+        state.currentIndex = idx;
         return idx;
-      }
+      };
     },
-    getLike(state){
-      return state.liked
+    getli(State) {
+      return function (id) {
+        let idx = State.likelist.indexOf(id);
+        return idx;
+      };
     },
-    getlist(state){
-      return state.palylist[state.currentIndex]
+    getLike(state) {
+      return state.liked;
     },
-    getidx(state){
-    
-        return state.currentIndex
-      
+    getlist(state) {
+      return state.palylist[state.currentIndex];
     },
-    getLen(state){
-      return state.palylist.length
+    getidx(state) {
+      return state.currentIndex;
+    },
+    getLen(state) {
+      return state.palylist.length;
     },
     getToken(state) {
       if (!state.token) {
@@ -187,9 +184,9 @@ export default new Vuex.Store({
     addSongToPlaylist({ commit, state, song }) {
       commit("playlist", [...state.playlist, song]);
     },
-    getIdx(state,song){
+    getIdx(state, song) {
       let idx = findIndex(state.palylist, song);
-      return idx
+      return idx;
     },
   },
   modules: {},

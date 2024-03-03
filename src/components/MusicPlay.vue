@@ -4,8 +4,7 @@
   </div>
 </template>
 <script>
-
-import aPlayer from "@/components/Aplayer.vue"
+import aPlayer from "@/components/Aplayer.vue";
 export default {
   components: {
     aPlayer: aPlayer,
@@ -19,7 +18,7 @@ export default {
         artist: "123", //演唱者
         lrc: "", //LRC 歌词或者歌词文件的 URL
         pic: "", //封面图片 URL
-        src:"", //音频文件的 URL
+        src: "", //音频文件的 URL
       },
     };
   },
@@ -28,9 +27,7 @@ export default {
     this.load();
   },
   methods: {
-    load() {
-    
-    },
+    load() {},
   },
 };
 </script>

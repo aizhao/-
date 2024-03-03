@@ -36,8 +36,8 @@ export default {
   name: "QnLogin",
   data() {
     return {
-      phone: "",
-      password: "",
+      phone: "19881148442",
+      password: "zhaoai2003",
       phoneMessage: "",
       pwdMessage: 0,
     };
@@ -51,21 +51,20 @@ export default {
             type: "warning",
           });
           this.pwdMessage++;
-          return;
         } else {
-          console.log(res);
           localStorage.clear();
           localStorage.setItem("info", 1);
           localStorage["flag"] = 1;
-          sessionStorage.clear();
           sessionStorage.setItem("userid", res.profile.userId);
           sessionStorage["token"] = JSON.stringify(res.token);
+          sessionStorage["cookie"] = JSON.stringify(res.cookie);
           this.$store.commit("addUser", res);
           localStorage.setItem("cookie", res.cookie);
           localStorage.setItem("avatar", res.profile.avatarUrl);
           localStorage.setItem("uid", res.profile.userId);
           localStorage.setItem("token", res.token);
-          this.$cookies.set("token", res.token);
+          this.$cookies.set("token", res.cookie);
+          console.log(localStorage.getItem("cookie"));
           this.$message({
             message: "登陆成功",
             type: "success",

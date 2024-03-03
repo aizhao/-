@@ -3,7 +3,8 @@ import  request  from "@/until/request"
 /**获取歌单分类 */
 export function _getCatList(){
     return request({
-        url:'/playlist/catlist'
+        url:'/playlist/catlist',
+        cookie:localStorage.getItem("cookie")
     })
 }
 
@@ -11,6 +12,7 @@ export function _getCatList(){
 export function _getMusicListHot(){
     return request({
         url:'/playlist/hot',
+        cookie:localStorage.getItem("cookie")
     })
 }
 
@@ -21,7 +23,8 @@ export function _getHighquality(cat,limit){
         params:{
             cat:cat,
             limit:limit,
-            time:new Date().getTime()
+            time:new Date().getTime(),
+            cookie:localStorage.getItem("cookie")
         }
     })
 }
@@ -32,7 +35,8 @@ export function _getPlayList(cat,limit,offset){
         params:{
             cat:cat,
             limit:limit,
-            offset
+            offset:offset,
+            cookie:localStorage.getItem("cookie")
         }
     })
 }
@@ -41,6 +45,7 @@ export function _getMusicList(id){
         url:'/playlist/detail',
         params:{
             id:id,
+            cookie:localStorage.getItem("cookie")
         }
     })
 }
@@ -49,6 +54,7 @@ export function _getitemList(limit){
         url:'/personalized',
         params:{
             limit:limit,
+            cookie:localStorage.getItem("cookie")
         }
     })
 }
@@ -57,6 +63,7 @@ export function _getSinnerList(type){
         url:'/toplist/artist',
         params:{
             type:type,
+            cookie:localStorage.getItem("cookie")
         }
     })
 }
@@ -66,7 +73,8 @@ export function _getUserList(uid,limit){
         url:'/user/playlist',
         params:{
             uid:uid,
-            limit:limit
+            limit:limit,
+            cookie:localStorage.getItem("cookie")
         }
     })
 }
@@ -81,7 +89,8 @@ export function commentList(id,limit){
         params:{
             id:id,
             limit:limit,
-            time:new Date().getTime()
+            time:new Date().getTime(),
+            cookie:localStorage.getItem("cookie")
         }
     })
 }
@@ -107,12 +116,20 @@ export function songdetail(ids){
 export function recmendsongs(){
     return request({
         url:'/recommend/songs',
+        params:{
+            time:new Date().getTime(),
+            cookie:localStorage.getItem("cookie")
+        }
        
     })
 }
 export function recmendlist(){
     return request({
         url:'/recommend/resource',
+        params:{
+            time:new Date().getTime(),
+            cookie:localStorage.getItem("cookie")
+        }
     })
 }
 export function get_rank(){
@@ -125,6 +142,7 @@ export function _getcomment(id){
         url:'/comment/music',
         params:{
             id:id,
+            cookie:localStorage.getItem("cookie")
         }
     })
 }
@@ -133,7 +151,8 @@ export function likemusic(id,like){
         url:'/like',
         params:{
             id:id,
-            like:like
+            like:like,
+            cookie:localStorage.getItem("cookie")
         }
     })
 }

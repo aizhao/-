@@ -1,41 +1,39 @@
 <template>
   <div class="box">
     <ul class="List">
-      推荐
+      <p id="te">推荐</p>
       <li>
         <i class="el-icon-headset"
-          ><el-link :to="{ path: '/QnHome' }" id="name">发现音乐</el-link></i
+          ><el-link id="name" @click="Goto()">发现音乐</el-link></i
         >
       </li>
       <li>
         <i class="el-icon-mobile-phone"
-          ><el-link :to="{ path: '/QnHome' }" id="name">推荐视频</el-link></i
+          ><el-link id="name" @click="Goto()">推荐视频</el-link></i
         >
       </li>
     </ul>
     <ul class="List">
-      我的音乐
+      <p id="te">我的音乐</p>
       <li>
         <i class="el-icon-cloudy"
-          ><el-link :to="{ path: '/QnHome' }" id="name"
-            >我的音乐云盘</el-link
-          ></i
+          ><el-link id="name" @click="Goto()">我的音乐云盘</el-link></i
         >
       </li>
     </ul>
-    <el-collapse>
-      <el-collapse-item title="我的歌单" name="1" class="mylist">
+    <el-collapse v-model="activename" @change="handleChange">
+      <el-collapse-item name="1" class="mylist">
+        <template slot="title">
+          <p id="title">我的歌单</p>
+          <span id="prompt">{{ prompt }}</span>
+        </template>
         <ul class="list">
-          <li v-for="(item,index) in list" :key="index">
+          <li v-for="(item, index) in list" :key="index">
             <div class="list1">
               <el-avatar :src="item.coverImgUrl + '?param=100y100'"></el-avatar>
-              <el-link
-  
-              
-                id="name"
-                @click="goto(index)"
-                >{{ item.name }}</el-link
-              >
+              <el-link id="name" @click="goto(item.id)">{{
+                item.name
+              }}</el-link>
             </div>
           </li>
         </ul>
@@ -58,41 +56,63 @@ export default {
   data() {
     return {
       list: [], // 推荐歌单数据
+      activename: "1",
+      prompt: "收起",
     };
   },
   mounted() {
     let uid = localStorage.getItem("uid");
-    _getUserList(uid, 5).then((res) => {
-      this.list = res.playlist;
-      console.log(this.list[0].id);
-      this.liked(this.list[0].id)
-      console.log(res);
-    });
-    
+    if (uid)
+      _getUserList(uid, 5).then((res) => {
+        this.list = res.playlist;
+        console.log(this.list[0].id);
+        this.liked(this.list[0].id);
+      });
+    else {
+      this.$router.push({
+        path: "/QnLogin",
+      });
+    }
   },
   methods: {
-    goto(index) {
+    handleChange() {
+      if (this.prompt === "收起") this.prompt = "展开";
+      else this.prompt = "收起";
+    },
+    goto(id) {
       this.$router.push({
         path: "/Song1List",
         query: {
-          id: this.list[index].id,
+          id: id,
         },
       });
     },
-    liked(id){
+    Goto() {
+      this.$message.error("功能正在开发");
+    },
+    liked(id) {
       _getMusicList(id).then((res) => {
-        var like=[];
-        for(let i=0;i<res.privileges.length;i++){
+        var like = [];
+        for (let i = 0; i < res.privileges.length; i++) {
           like.push(JSON.parse(JSON.stringify(res.privileges[i].id)));
         }
-        this.$store.commit('setlike',like);
+        this.$store.commit("setlike", like);
       });
-    }
+    },
   },
 };
 </script>
 
 <style scoped>
+#te {
+  font-size: 16px;
+  /* font-weight: 600; */
+}
+#title {
+  margin-left: 10px;
+  font-size: 16px;
+  /* font-weight: 600; */
+}
 #name {
   text-align: left;
   margin-left: 14px;
@@ -100,6 +120,9 @@ export default {
 }
 .mylist {
   padding-inline-start: 0px;
+}
+.mylist:deep(.el-collapse-item__header) {
+  position: relative;
 }
 .List {
   margin: 0 10px;
@@ -127,5 +150,13 @@ ul li {
 }
 .list {
   padding-inline-start: 0px;
+}
+#prompt {
+  /* 靠最右边 */
+  position: absolute;
+  /* display: flex; */
+  right: 30px;
+
+  /* margin-left: 30px; */
 }
 </style>

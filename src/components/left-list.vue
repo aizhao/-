@@ -4,12 +4,12 @@
       <p id="te">推荐</p>
       <li>
         <i class="el-icon-headset"
-          ><el-link id="name" @click="Goto()">发现音乐</el-link></i
+          ><el-link id="name" @click="Goto()" :underline="false"> 发现音乐</el-link></i
         >
       </li>
       <li>
         <i class="el-icon-mobile-phone"
-          ><el-link id="name" @click="Goto()">推荐视频</el-link></i
+          ><el-link id="name" @click="Goto()" :underline="false">推荐视频</el-link></i
         >
       </li>
     </ul>
@@ -17,7 +17,7 @@
       <p id="te">我的音乐</p>
       <li>
         <i class="el-icon-cloudy"
-          ><el-link id="name" @click="Goto()">我的音乐云盘</el-link></i
+          ><el-link id="name" @click="Goto()" :underline="false">我的音乐云盘</el-link></i
         >
       </li>
     </ul>
@@ -31,7 +31,7 @@
           <li v-for="(item, index) in list" :key="index">
             <div class="list1">
               <el-avatar :src="item.coverImgUrl + '?param=100y100'"></el-avatar>
-              <el-link id="name" @click="goto(item.id)">{{
+              <el-link id="name" @click="goto(item.id)" :underline="false">{{
                 item.name
               }}</el-link>
             </div>

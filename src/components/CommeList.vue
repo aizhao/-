@@ -2,8 +2,7 @@
   <div class="momment">
     <el-table
       :data="list.slice((currentPage - 1) * pagesize, currentPage * pagesize)"
-      style="width: 1000px height: 750px"
-    >
+      style="width: 1000px;">
       <el-table-column label="" width="100px">
         <template slot-scope="scope">
           <div class="avatar">

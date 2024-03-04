@@ -11,7 +11,7 @@
         style="cursor: pointer"
       ></floatButton>
       <el-header height="10%"><QnNavbar></QnNavbar> </el-header>
-      <el-container>
+      <el-container >
         <el-aside width="18%"><left-list></left-list></el-aside>
         <el-main>
           <keep-alive>

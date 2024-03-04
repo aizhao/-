@@ -10,7 +10,7 @@
           MusicList.slice((currentPage - 1) * pagesize, currentPage * pagesize)
         "
         stripe
-        style="width:1000px height: 750px;"
+        style="width:1000px;"
       >
         <el-table-column type="index" :index="indexMethod"> </el-table-column>
         <el-table-column width="50"
@@ -43,7 +43,7 @@
               content="立即播放"
               placement="top"
             >
-              <el-link @click="goto(scope.row.id)">{{
+              <el-link @click="goto(scope.row.id)" :underline="false">{{
                 scope.row.name
               }}</el-link></el-tooltip
             >
@@ -78,6 +78,7 @@
             <el-link
               @click="goto2(scope.row.ar[idx].id)"
               target="_blank"
+              :underline="false"
               v-for="(item, idx) in scope.row.ar.slice(
                 0,
                 scope.row.ar.length > 3 ? 2 : scope.row.ar.length - 1
@@ -89,19 +90,21 @@
               v-if="scope.row.ar.length < 4"
               @click="goto2(scope.row.ar[scope.row.ar.length - 1].id)"
               target="_blank"
+              :underline="false"
               >{{ scope.row.ar[scope.row.ar.length - 1].name }}</el-link
             >
             <el-link
               v-if="scope.row.ar.length > 3"
               @click="goto(scope.row.id)"
               target="_blank"
+              :underline="false"
               >{{ scope.row.ar[2].name }}</el-link
             >
           </template>
         </el-table-column>
         <el-table-column label="专辑" width="360">
           <template slot-scope="scope">
-            <el-link target="_blank">{{ scope.row.al.name }}</el-link>
+            <el-link target="_blank" :underline="false">{{ scope.row.al.name }}</el-link>
           </template>
         </el-table-column>
       </el-table>

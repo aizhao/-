@@ -72,7 +72,7 @@
             <i class="el-icon-user-solid"></i>
             <el-tooltip placement="bottom" effect="light" open-delay="500">
               <div slot="content">{{ item.name }}</div>
-              <el-link @click="goto(item.id)">{{
+              <el-link @click="goto(item.id)" :underline="false">{{
                 item.name
               }}</el-link></el-tooltip
             >

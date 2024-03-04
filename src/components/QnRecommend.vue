@@ -12,7 +12,7 @@
           >
           </el-image>
           <div @click="tochilr(item.id)">
-            <el-link class="song_name">{{ item.name }}</el-link>
+            <el-link class="song_name" :underline="false">{{ item.name }}</el-link>
           </div>
         </el-card>
       </el-col>

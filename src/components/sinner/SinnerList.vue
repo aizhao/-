@@ -9,7 +9,7 @@
             lazy
           ></el-image>
           <div>
-          <el-link class="sinnerName" @click="goto(item.id)">{{ item.name }}</el-link></div>
+          <el-link class="sinnerName" @click="goto(item.id)" :underline="false">{{ item.name }}</el-link></div>
         </el-card>
       </el-col>
     </el-row>

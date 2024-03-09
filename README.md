@@ -33,34 +33,34 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ##### 登录页面(支持手机号密码登录，扫码登录)
 
-![image-text]([Img-ai/2024-03-09 180236.png at main · aizhao/Img-ai (github.com)](https://github.com/aizhao/Img-ai/blob/main/2024-03-09 180236.png))
+![image-text](https://github.com/aizhao/Img-ai/blob/main/2024-03-09%180236.png)
 
 ##### 首页(我的歌单，推荐歌单)
 
-![image-text](https://github.com/aizhao/Img-ai/blob/main/2024-03-09 180352.png)
+![image-text](https://github.com/aizhao/Img-ai/blob/main/2024-03-09%180352.png)
 
 ##### 歌单内容
 
-![image-text](https://github.com/aizhao/Img-ai/blob/main/2024-03-09 180438.png)
+![image-text](https://github.com/aizhao/Img-ai/blob/main/2024-03-09%180438.png)
 
 ##### 歌手界面(支持分类查找，名字首字母查找)
 
-![image-text](https://github.com/aizhao/Img-ai/blob/main/2024-03-09 180512.png)
+![image-text](https://github.com/aizhao/Img-ai/blob/main/2024-03-09%180512.png)
 
 ##### 排行榜：包括三十多个分类排行榜
 
-![image-text](https://github.com/aizhao/Img-ai/blob/main/2024-03-09 180613.png)
+![image-text](https://github.com/aizhao/Img-ai/blob/main/2024-03-09%180613.png)
 
 搜索(支持模糊搜索，可搜素单曲，歌手，专辑，歌单)
 
-![image-text](https://github.com/aizhao/Img-ai/blob/main/2024-03-09 180702.png)
+![image-text](https://github.com/aizhao/Img-ai/blob/main/2024-03-09%180702.png)
 
 ##### 播放列表
 
-![image-text](https://github.com/aizhao/Img-ai/blob/main/2024-03-09 180808.png)
+![image-text](https://github.com/aizhao/Img-ai/blob/main/2024-03-09%180808.png)
 
 ##### 播放详情(心动模式)
 
 可通过点击悬浮爱心按钮进入心动模式，歌词可滚动，支持进度条拖拽，单曲收藏，音量调节。支持三种播放模式(顺序播放，随机播放，单曲循环)
 
-![image-text](https://github.com/aizhao/Img-ai/blob/main/2024-03-09 180858.png)
+![image-text](https://github.com/aizhao/Img-ai/blob/main/2024-03-09%180858.png)

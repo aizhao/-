@@ -4,12 +4,16 @@
       <p id="te">推荐</p>
       <li>
         <i class="el-icon-headset"
-          ><el-link id="name" @click="Goto()" :underline="false"> 发现音乐</el-link></i
+          ><el-link id="name" @click="Goto()" :underline="false">
+            发现音乐</el-link
+          ></i
         >
       </li>
       <li>
         <i class="el-icon-mobile-phone"
-          ><el-link id="name" @click="Goto()" :underline="false">推荐视频</el-link></i
+          ><el-link id="name" @click="Goto()" :underline="false"
+            >推荐视频</el-link
+          ></i
         >
       </li>
     </ul>
@@ -17,7 +21,9 @@
       <p id="te">我的音乐</p>
       <li>
         <i class="el-icon-cloudy"
-          ><el-link id="name" @click="Goto()" :underline="false">我的音乐云盘</el-link></i
+          ><el-link id="name" @click="Goto()" :underline="false"
+            >我的音乐云盘</el-link
+          ></i
         >
       </li>
     </ul>
@@ -61,20 +67,27 @@ export default {
     };
   },
   mounted() {
-    let uid = localStorage.getItem("uid");
-    if (uid)
-      _getUserList(uid, 5).then((res) => {
-        this.list = res.playlist;
-        console.log(this.list[0].id);
-        this.liked(this.list[0].id);
-      });
-    else {
-      this.$router.push({
-        path: "/QnLogin",
-      });
-    }
+    this.load();
   },
   methods: {
+    load() {
+      let uid = localStorage.getItem("uid");
+      if (uid)
+        _getUserList(uid, 5).then((res) => {
+          this.list = res.playlist;
+          console.log(this.list[0].id);
+          this.liked(this.list[0].id);
+        });
+      else {
+        this.$message({
+          message: "请登录使用!",
+          type: "error",
+        });
+        // this.$router.push({
+        //   path: "/QnLogin",
+        // });
+      }
+    },
     handleChange() {
       if (this.prompt === "收起") this.prompt = "展开";
       else this.prompt = "收起";
@@ -99,6 +112,16 @@ export default {
         this.$store.commit("setlike", like);
       });
     },
+  },
+  watch: {
+    "$store.state.uid"(Val) {
+      if (Val) {
+       this.load()
+      }else{
+        this.list = []
+      }
+    },
+
   },
 };
 </script>

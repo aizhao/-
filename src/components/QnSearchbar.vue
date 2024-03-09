@@ -28,7 +28,7 @@
         </el-table-column>
         <el-table-column label="热门搜索" width="180">
           <template slot-scope="scope">
-            <el-link target="_blank" @click="addmsg(scope.row.searchWord)">{{
+            <el-link :underline="false" target="_blank" @click="addmsg(scope.row.searchWord)">{{
               scope.row.searchWord
             }}</el-link>
           </template>
@@ -43,7 +43,7 @@
       >
         <el-table-column>
           <template slot-scope="scope">
-            <el-link @click="add(scope.row.id)"
+            <el-link :underline="false" @click="add(scope.row.id)"
               >{{ scope.row.name }}—{{ scope.row.artists[0].name }}</el-link
             >
           </template>
@@ -58,7 +58,7 @@
       >
         <el-table-column>
           <template slot-scope="scope">
-            <el-link @click="gotosinner(scope.row.id)">{{
+            <el-link :underline="false" @click="gotosinner(scope.row.id)">{{
               scope.row.name
             }}</el-link>
           </template>
@@ -149,6 +149,7 @@ export default {
 }
 
 .search-btn {
+  cursor: pointer;
   color: #e84118;
   float: right;
   width: 40px;

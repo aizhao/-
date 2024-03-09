@@ -10,7 +10,7 @@
           MusicList.slice((currentPage - 1) * pagesize, currentPage * pagesize)
         "
         stripe
-        style="width:1000px height: 750px;"
+        style="width:1000px"
       >
         <el-table-column type="index" :index="indexMethod"> </el-table-column>
         <el-table-column width="50"

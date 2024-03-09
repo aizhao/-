@@ -11,7 +11,7 @@
         style="cursor: pointer"
       ></floatButton>
       <el-header height="10%"><QnNavbar></QnNavbar> </el-header>
-      <el-container >
+      <el-container>
         <el-aside width="18%"><left-list></left-list></el-aside>
         <el-main>
           <keep-alive>
@@ -42,10 +42,12 @@
         </el-drawer>
       </el-container>
     </el-container>
+    <div v-show="!this.$store.getters.getmask"><copyright></copyright></div>
   </div>
 </template>
 
 <script>
+import copyright from "@/components/copyright-icp.vue"
 import aPlayer from "@/components/Aplayer.vue";
 import play from "@/components/play/play.vue";
 import floatButton from "@/components/float-button.vue";
@@ -55,6 +57,7 @@ export default {
     aPlayer: aPlayer,
     play: play,
     floatButton: floatButton,
+    copyright:copyright,
   },
   data() {
     return {
@@ -108,7 +111,7 @@ export default {
         this.open();
         setTimeout(() => {
           this.close();
-        }, 3000);
+        }, 800);
       } else {
         this.open1();
       }

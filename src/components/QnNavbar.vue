@@ -14,7 +14,7 @@
         <router-link :to="{ path: '/rankingList' }">排行榜</router-link>
       </li>
       <li class="li-left"><QnSearchbar></QnSearchbar></li>
-      <li class="li-left" id="login" v-show="flag === 0">
+      <li class="li-left" id="login" v-show="!flag">
         <el-popover placement="bottom" width="150" trigger="hover">
           <div class="elogin">
             <div class="item">
@@ -29,41 +29,54 @@
             </div>
           </div>
 
-          <router-link :to="{ path: '/' }" slot="reference"
-            ><el-avatar :src="uidurl"></el-avatar
+          <router-link  :to="{ path: '/' }" slot="reference"
+            ><el-avatar   :src="uidurl"></el-avatar
           ></router-link>
         </el-popover>
       </li>
-      <li v-show="flag !== 0" class="li-left" id="login">
-        <router-link :to="{ path: '/QnLogin' }">登录</router-link>
+      <li  class="li-left" id="login" v-show="flag">
+        <el-link   @click="Show()">登录</el-link>
       </li>
     </ul>
+    <div class="login" ref="lo1">
+    <login ref="lo" :flag.sync="flag"></login></div>
   </div>
 </template>
 <script>
 import { logout } from "@/api/login";
+import login from '@/components/login'
 export default {
   data() {
     return {
       show: false,
-      flag: 1,
+      flag: true,
       uidurl: "",
     };
   },
+  components: {
+    login:login
+  },
   // 获取登录状态
   mounted() {
-    let uid = localStorage.getItem("uid");
-    if (uid) {
-      this.flag = 0;
-      this.uidurl = localStorage.getItem("avatar");
-    } else {
-      this.flag = 1;
-      this.$router.push({
-        path: "/QnLogin",
-      });
-    }
+    this.load()
   },
   methods: {
+    load(){
+      var u =localStorage.getItem("uid")
+    if(u){
+      this.uidurl=localStorage.getItem('avatar')
+      this.flag=false
+    }
+    else{
+      this.flag=true
+    }
+    },
+    Show(){
+      console.log(this.$refs.lo)
+      this.$refs.lo.fl="true"
+      // this.$refs.lo.$refs.lo1.style='display:flex;';
+      // this.$refs.lo1.style='display:block;';
+    },
     Goto() {
       this.$message.error("功能暂未开发！");
     },
@@ -78,17 +91,29 @@ export default {
           });
           this.flag = 1;
           localStorage.clear();
-          this.$router.push({
-            path: "/QnLogin",
-          });
+          this.$store.state.uid="";
+          // this.$router.push({
+          //   path: "/QnLogin",
+          // });
         }
       });
     },
+  },
+  watch: {
+    "$store.state.uid"(Val) {
+      if (Val) {
+       this.load()
+      } 
+    },
+
   },
 };
 </script>
 
 <style scoped>
+/* .login{
+  display: none;
+} */
 .elogin {
   display: flex;
 

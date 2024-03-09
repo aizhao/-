@@ -1,6 +1,6 @@
 import VueRouter from "vue-router";
 import QnHome from "@/views/QnHome";
-import QnLogin from "@/views/QnLogin";
+
 import QnRecmend from "@/views/QnRecmend";
 
 import Song1List from "@/views/Song1List";
@@ -13,7 +13,6 @@ import searchbar from "@/components/QnSearchbar";
 import sinner from "@/views/sinner";
 import QnSinner from "@/views/QnSinner";
 import rankingList from "@/views/rankingList";
-
 Vue.use(VueRouter);
 const originalPush = VueRouter.prototype.push;
 VueRouter.prototype.push = function push(location) {
@@ -72,13 +71,7 @@ const router = new VueRouter({
         },
       ],
     },
-    {
-      path: "/QnLogin",
-      name: "QnLogin",
-      component: QnLogin,
-      children: [],
-      meta: { keepAlive: true },
-    },
+
 
     {
       path: "/MusicPlay",

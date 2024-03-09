@@ -27,7 +27,7 @@
             ><el-link
               :style="{
                 'font-size': index == currentRow ? '1.3rem' : '.9rem',
-                color: index == currentRow ? 'red' : 'white',
+                color: index == currentRow ? '#f56868' : 'white',
               }"
               @click="changecurrent(item.time)"
               >{{ item.text }}</el-link
@@ -406,6 +406,8 @@ p {
   /* 居中 */
   align-items: center;
   justify-content: center;
+
+
 }
 .slider {
   margin: 0 10%;
@@ -427,6 +429,7 @@ p {
   overflow-y: scroll;
   margin-left: 150px;
   margin-top: 20px;
+ 
 }
 .lyric-row {
   height: 3rem;

@@ -8,7 +8,7 @@ module.exports = {
     open: true, // 自动打开浏览器
     host: "0.0.0.0",
     /* 设置为0.0.0.0则所有的地址均能访问 */
-    port: 8080, // 端口号
+    // port: 8080, // 端口号
     https: false, // 是否使用https协议
     // hotOnly: false, // 是否开启热更新
     // proxy: null // 设置代理

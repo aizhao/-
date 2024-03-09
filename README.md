@@ -33,34 +33,34 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ##### 登录页面(支持手机号密码登录，扫码登录)
 
-![image-20240309180239894](C:\Users\zhaoai\AppData\Roaming\Typora\typora-user-images\image-20240309180239894.png)
+![image-text](https://github.com/aizhao/Img-ai/blob/main/2024-03-09%20180236.png)
 
 ##### 首页(我的歌单，推荐歌单)
 
-![image-20240309180354716](C:\Users\zhaoai\AppData\Roaming\Typora\typora-user-images\image-20240309180354716.png)
+![image-text](https://github.com/aizhao/Img-ai/blob/main/2024-03-09%20180345.png)
 
 ##### 歌单内容
 
-![image-20240309180447935](C:\Users\zhaoai\AppData\Roaming\Typora\typora-user-images\image-20240309180447935.png)
+![image-text](https://github.com/aizhao/Img-ai/blob/main/2024-03-09%20180352.png)
 
 ##### 歌手界面(支持分类查找，名字首字母查找)
 
-![image-20240309180518745](C:\Users\zhaoai\AppData\Roaming\Typora\typora-user-images\image-20240309180518745.png)
+![image-text](https://github.com/aizhao/Img-ai/blob/main/2024-03-09%20180438.png)
 
 ##### 排行榜：包括三十多个分类排行榜
 
-![image-20240309180616739](C:\Users\zhaoai\AppData\Roaming\Typora\typora-user-images\image-20240309180616739.png)
+![image-text](https://github.com/aizhao/Img-ai/blob/main/2024-03-09%20180512.png)
 
 搜索(支持模糊搜索，可搜素单曲，歌手，专辑，歌单)
 
-![image-20240309180708633](C:\Users\zhaoai\AppData\Roaming\Typora\typora-user-images\image-20240309180708633.png)
+![image-text](https://github.com/aizhao/Img-ai/blob/main/2024-03-09%20180613.png)
 
 ##### 播放列表
 
-![image-20240309180828972](C:\Users\zhaoai\AppData\Roaming\Typora\typora-user-images\image-20240309180828972.png)
+![image-text](https://github.com/aizhao/Img-ai/blob/main/2024-03-09%20180702.png)
 
 ##### 播放详情(心动模式)
 
 可通过点击悬浮爱心按钮进入心动模式，歌词可滚动，支持进度条拖拽，单曲收藏，音量调节。支持三种播放模式(顺序播放，随机播放，单曲循环)
 
-![image-20240309180915019](C:\Users\zhaoai\AppData\Roaming\Typora\typora-user-images\image-20240309180915019.png)
+![image-text](https://github.com/aizhao/Img-ai/blob/main/2024-03-09%20180855.png)

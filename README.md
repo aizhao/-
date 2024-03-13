@@ -9,19 +9,8 @@ npm install
 ```
 npm run serve
 ```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### 测试账号：19881148442
+### 测试密码：asd123456
 
 ### 项目简介
 
@@ -30,8 +19,6 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 前端采用Vue2+element ui  ,是一个拥有登录注册，音乐推荐，音乐，歌手，排行榜，专辑搜索，音乐播放等功能的一个音乐播放平台。
 
 ### 项目功能
-##### 测试账号：19881148442
-##### 测试密码：asd123456
 
 ##### 登录页面(支持手机号密码登录，扫码登录)
 
